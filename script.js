@@ -1535,22 +1535,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Prepare email parameters
     const templateParams = {
-      to_email: data.email,
+      message: "تم إنشاء بطاقة العمل الخاصة بك بنجاح",
       from_name: "Bcaitech Card Generator",
       to_name: data.name,
-      message: "Your digital business card has been generated successfully",
+      to_email: data.email,
       card_html: cardHTML,
     };
-
     // Send email using EmailJS
     emailjs.send("service_h4iregr", "template_rgrw5mk", templateParams).then(
       function (response) {
-        console.log("SUCCESS!", response.status, response.text);
-        alert("Card has been sent successfully to your email!");
+        console.log("نجاح!", response.status, response.text);
+        alert("تم إرسال البطاقة بنجاح إلى بريدك الإلكتروني!");
       },
       function (error) {
-        console.log("FAILED...", error);
-        alert("An error occurred while sending the email. Please try again.");
+        console.log("فشل...", error);
+        alert("حدث خطأ أثناء إرسال البريد. يرجى المحاولة مرة أخرى.");
       }
     );
   }
