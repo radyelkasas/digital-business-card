@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء بطاقة عمل رقمية</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>إنشاء بطاقة عمل رقمية</h1>
+            <p>أنشئ بطاقة عمل احترافية بسهولة</p>
+        </header>
+
+        <main>
+            <div class="form-section">
+                <form id="cardForm">
+                    <div class="form-group">
+                        <label for="name">الاسم *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="position">المنصب *</label>
+                        <input type="text" id="position" name="position" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">الشركة *</label>
+                        <input type="text" id="company" name="company" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">الهاتف *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatsapp">رقم الواتساب</label>
+                        <input type="tel" id="whatsapp" name="whatsapp">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="website">الموقع الإلكتروني</label>
+                        <input type="url" id="website" name="website">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">وصف مختصر</label>
+                        <textarea id="description" name="description" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" id="generateBtn">إنشاء البطاقة</button>
+                </form>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h2>معاينة البطاقة</h2>
+                <div id="cardPreview"></div>
+                <button id="sendEmailBtn" class="send-btn">إرسال البطاقة بالبريد الإلكتروني</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- قالب البطاقة -->
+    <template id="cardTemplate">
+        <div class="business-card">
+            <div class="card-header">
+                <img src="https://via.placeholder.com/100" alt="Logo" class="logo">
+                <img src="https://via.placeholder.com/150x100" alt="Company Card" class="company-card">
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-circle">
+                    <span class="profile-text">Profile</span>
+                </div>
+            </div>
+
+            <h1 class="name"></h1>
+            <h2 class="position"></h2>
+
+            <p class="description"></p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="icon">📧</span>
+                    <span class="email"></span>
+                    <span class="work-label">Work</span>
+                </div>
+
+                <div class="contact-item">
+                    <span class="icon">📞</span>
+                    <span class="phone"></span>
+                    <span class="work-label">Work</span>
+                </div>
+
+                <div class="contact-item whatsapp">
+                    <span class="icon">📱</span>
+                    <span class="text">Connect with me on WhatsApp</span>
+                </div>
+
+                <div class="contact-item website">
+                    <span class="icon">🌐</span>
+                    <span class="text">Visit our website</span>
+                </div>
+            </div>
+
+            <button class="save-contact">Save Contact</button>
+
+            <div class="powered-by">
+
+                Powered by Bcaitech
+
+                <!-- <span class="company-name"></span> -->
+            </div>
+        </div>
+    </template>
+
+    <!-- مكتبات خارجية -->
+    <!-- JSZip - لإنشاء ملف ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- EmailJS - لإرسال البريد الإلكتروني -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("KtE2IDaSJIv1cLRnL"); // ضع مفتاح EmailJS هنا
+        })();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,214 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+main {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.form-section,
+.preview-section {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.send-btn {
+    background-color: #28a745;
+    margin-top: 20px;
+}
+
+.send-btn:hover {
+    background-color: #218838;
+}
+
+/* Business Card Styles */
+.business-card {
+    background: white;
+    width: 350px;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.company-card {
+    width: 80px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.profile-section {
+    margin-bottom: 20px;
+}
+
+.profile-circle {
+    width: 80px;
+    height: 80px;
+    border: 3px solid #dc3545;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-text {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.name {
+    font-size: 24px;
+    margin: 15px 0 5px;
+    color: #333;
+}
+
+.position {
+    font-size: 16px;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.description {
+    color: #444;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.contact-info {
+    margin-bottom: 30px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px 0;
+}
+
+.icon {
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.email,
+.phone {
+    flex-grow: 1;
+    text-align: right;
+}
+
+.work-label {
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.save-contact {
+    background: black;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+}
+
+.powered-by {
+    color: #999;
+    font-size: 14px;
+}
+
+.company-name {
+    color: #666;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+}

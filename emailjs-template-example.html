@@ -1,0 +1,42 @@
+<!-- قالب البريد الإلكتروني لـ EmailJS -->
+<!-- يجب نسخ هذا الكود وإضافته في لوحة تحكم EmailJS -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>مرحباً {{to_name}}</h2>
+            <p>تم إنشاء بطاقة العمل الخاصة بك بنجاح!</p>
+        </div>
+        
+        <div style="margin-bottom: 30px;">
+            <p>{{message}}</p>
+        </div>
+        
+        {{card_html}}
+        
+        <div class="footer">
+            <p>هذه رسالة تلقائية من {{from_name}}</p>
+            <p>يرجى عدم الرد على هذا البريد</p>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- ملاحظات مهمة: -->
+<!-- 1. في لوحة تحكم EmailJS، يجب إضافة المتغيرات التالية: -->
+<!--    - to_email -->
+<!--    - to_name -->
+<!--    - from_name -->
+<!--    - message -->
+<!--    - card_html -->
+<!-- 2. تأكد من تفعيل رسائل HTML في إعدادات القالب -->
