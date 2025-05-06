@@ -1391,19 +1391,19 @@ document.addEventListener("DOMContentLoaded", function () {
     return `<div class="business-card classic-card">
         <div class="classic-header">
             <img src="assets/media/background.jpg" alt="Cover" class="cover-image"
-                onerror="this.src='https://via.placeholder.com/350x100?text=Cover'">
+         >
         </div>
   
         <div class="profile-section">
             <div class="profile-container">
                 <div class="profile-circle">
                     <img src="assets/media/profile.jpg" alt="Profile" class="profile-img"
-                        onerror="this.src='https://via.placeholder.com/80?text=Profile'">
+                 >
                 </div>
             </div>
             <div class="company-logo-container">
                 <img src="assets/media/logo.jpg" alt="Company Logo" class="company-logo"
-                    onerror="this.src='https://via.placeholder.com/120?text=Logo'">
+              >
             </div>
         </div>
   
@@ -3419,13 +3419,137 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    /**
-     * Save contact information
-     */
     function saveContact() {
-        // Here would be vCard creation
-        alert('Contact saved!');
+    // Get the closest business card parent element
+    var card = this.closest('.business-card');
+    
+    // Extract data from card
+    var name = '';
+    var positionFull = '';
+    var position = '';
+    var company = '';
+    var email = '';
+    var phone = '';
+    var description = '';
+    
+    // Get name
+    if (card.querySelector('.name')) {
+      name = card.querySelector('.name').textContent;
     }
+    
+    // Get position and company
+    if (card.querySelector('.position')) {
+      positionFull = card.querySelector('.position').textContent;
+      if (positionFull.includes(' - ')) {
+        position = positionFull.split(' - ')[0];
+        company = positionFull.split(' - ')[1];
+      } else {
+        position = positionFull;
+        company = '';
+      }
+    }
+    
+    // Get email
+    if (card.querySelector('.email')) {
+      email = card.querySelector('.email').textContent;
+    }
+    
+    // Get phone
+    if (card.querySelector('.phone')) {
+      phone = card.querySelector('.phone').textContent;
+    }
+    
+    // Get description
+    if (card.querySelector('.description')) {
+      description = card.querySelector('.description').textContent;
+    }
+    
+    // Check for WhatsApp and Website
+    var hasWhatsapp = false;
+    var hasWebsite = false;
+    
+    // Check WhatsApp
+    var whatsappItem = card.querySelector('.whatsapp-item');
+    if (whatsappItem && whatsappItem.style.display !== 'none') {
+      hasWhatsapp = true;
+    }
+    
+    // Check Website
+    var websiteItem = card.querySelector('.website-item');
+    if (websiteItem && websiteItem.style.display !== 'none') {
+      hasWebsite = true;
+    }
+    
+    // Create vCard content array
+    var vCardContent = [];
+    
+    // Add mandatory fields
+    vCardContent.push("BEGIN:VCARD");
+    vCardContent.push("VERSION:3.0");
+    vCardContent.push("FN:" + name);
+    
+    // Add company if available
+    if (company) {
+      vCardContent.push("ORG:" + company);
+    }
+    
+    // Add position if available
+    if (position) {
+      vCardContent.push("TITLE:" + position);
+    }
+    
+    // Add email if available
+    if (email) {
+      vCardContent.push("EMAIL:" + email);
+    }
+    
+    // Add phone if available
+    if (phone) {
+      vCardContent.push("TEL;TYPE=WORK,VOICE:" + phone);
+    }
+    
+    // Add WhatsApp if available
+    if (hasWhatsapp && phone) {
+      vCardContent.push("TEL;TYPE=CELL,VOICE:" + phone);
+    }
+    
+    // Add website if available
+    if (hasWebsite) {
+      vCardContent.push("URL:https://www.example.com");
+    }
+    
+    // Add description if available
+    if (description) {
+      vCardContent.push("NOTE:" + description);
+    }
+    
+    // Add end of vCard
+    vCardContent.push("END:VCARD");
+    
+    // Using String.fromCharCode for newline character
+    var newline = String.fromCharCode(10);
+    var finalVCard = vCardContent.join(newline);
+    
+    // Create a downloadable file
+    var blob = new Blob([finalVCard], { type: "text/vcard" });
+    var url = window.URL.createObjectURL(blob);
+    
+    // Create download link
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = name.replace(/\s+/g, "_") + "_contact.vcf";
+    
+    // Append to body, click and remove
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    // Release URL object
+    window.URL.revokeObjectURL(url);
+    
+    // Show success alert in Arabic
+    alert("تم حفظ جهة الاتصال بنجاح! تحقق من مجلد التنزيلات الخاص بك.");
+  }
     
     /**
      * Open WhatsApp with the contact number
