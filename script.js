@@ -2,7 +2,7 @@
  * Bcaitech Digital Business Card Creator
  * Main JavaScript file
  * Author: Claude
- * Version: 1.0
+ * Version: 1.1
  */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -31,6 +31,15 @@ document.addEventListener("DOMContentLoaded", function () {
     background: null,
     logo: null,
   };
+
+  // Update template preview images
+  updateTemplatePreviewImages();
+
+  // Update template HTML structures
+  updateTemplateHTML();
+
+  // Add updated CSS styles for templates
+  updateTemplateCSS();
 
   // Handle image upload and preview
   setupImageUpload(profilePicInput, profilePreview, "profile");
@@ -81,6 +90,746 @@ document.addEventListener("DOMContentLoaded", function () {
       sendCardByEmail(currentCardData);
     }
   });
+
+  /**
+   * Update template preview images in the template selection section
+   */
+  function updateTemplatePreviewImages() {
+    // Classic template preview (Image 1 - Ahmed Al-Khazraji)
+    const classicTemplatePreview = document.querySelector(
+      "#template1 + label img"
+    );
+    if (classicTemplatePreview) {
+      classicTemplatePreview.src = "assets/media/template1.png";
+      classicTemplatePreview.alt = "Classic Template";
+
+      // Add hover effect to template preview
+      const classicTemplateLabel = document.querySelector("#template1 + label");
+      if (classicTemplateLabel) {
+        classicTemplateLabel.addEventListener("mouseenter", function () {
+          classicTemplatePreview.style.transform = "scale(1.05)";
+          classicTemplatePreview.style.boxShadow = "0 5px 15px rgba(0,0,0,0.2)";
+        });
+
+        classicTemplateLabel.addEventListener("mouseleave", function () {
+          classicTemplatePreview.style.transform = "";
+          classicTemplatePreview.style.boxShadow = "";
+        });
+      }
+    }
+
+    // Modern template preview (Image 2)
+    const modernTemplatePreview = document.querySelector(
+      "#template2 + label img"
+    );
+    if (modernTemplatePreview) {
+      modernTemplatePreview.src = "assets/media/template2.png";
+      modernTemplatePreview.alt = "Modern Template";
+    }
+
+    // Add hover effects to all template selections
+    const templateOptions = document.querySelectorAll(".template-option");
+    templateOptions.forEach((option) => {
+      const label = option.querySelector("label");
+      const img = option.querySelector("img");
+      const span = option.querySelector("span");
+      if (label && img && span) {
+        label.addEventListener("mouseenter", function () {
+          if (!option.querySelector("input").checked) {
+            img.style.transform = "translateY(-5px)";
+            img.style.boxShadow = "0 5px 10px rgba(0,0,0,0.1)";
+            span.style.color = "#8B0000";
+          }
+        });
+
+        label.addEventListener("mouseleave", function () {
+          if (!option.querySelector("input").checked) {
+            img.style.transform = "";
+            img.style.boxShadow = "";
+            span.style.color = "";
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * Update the HTML structure of the templates
+   */
+  function updateTemplateHTML() {
+    // =====================================
+    // Update Classic Template (Image 1)
+    // =====================================
+    const classicTemplate = document.getElementById("classicTemplate");
+    if (classicTemplate) {
+      classicTemplate.innerHTML = `
+      <div class="business-card classic-card">
+          <div class="classic-header">
+              <img src="" alt="Cover" class="cover-image">
+          </div>
+
+          <div class="profile-section">
+              <div class="profile-container">
+                  <div class="profile-circle">
+                      <img src="" alt="Profile" class="profile-img">
+                  </div>
+              </div>
+              <div class="company-logo-container">
+                  <img src="" alt="Company Logo" class="company-logo">
+              </div>
+          </div>
+
+          <div class="identity-section">
+              <h1 class="name"></h1>
+              <h2 class="position"></h2>
+          </div>
+
+          <p class="description"></p>
+
+          <div class="contact-info">
+              <div class="contact-item email-item">
+                  <span class="icon"><i class="fas fa-envelope"></i></span>
+                  <div class="contact-details">
+                      <span class="email"></span>
+                      <span class="label">Work</span>
+                  </div>
+              </div>
+
+              <div class="contact-item phone-item">
+                  <span class="icon"><i class="fas fa-phone"></i></span>
+                  <div class="contact-details">
+                      <span class="phone"></span>
+                      <span class="label">Work</span>
+                  </div>
+              </div>
+
+              <div class="contact-item whatsapp-item">
+                  <span class="icon"><i class="fab fa-whatsapp"></i></span>
+                  <div class="contact-details">
+                      <span class="text">Connect with me on WhatsApp</span>
+                  </div>
+              </div>
+
+              <div class="contact-item website-item">
+                  <span class="icon"><i class="fas fa-globe"></i></span>
+                  <div class="contact-details">
+                      <span class="text">Visit our website</span>
+                  </div>
+              </div>
+          </div>
+
+          <button class="save-contact">Save Contact</button>
+
+          <div class="powered-by">
+              Powered by <a href="https://bcaitech.bh/" target="_blank"
+                    rel="noopener noreferrer" class="powered-by-brand">Bcaitech</a>
+          </div>
+      </div>`;
+    }
+
+    // =====================================
+    // Update Modern Template (Image 2)
+    // =====================================
+    const modernTemplate = document.getElementById("modernTemplate");
+    if (modernTemplate) {
+      modernTemplate.innerHTML = `
+      <div class="business-card modern-card">
+          <!-- Top header with logos -->
+          <div class="modern-header">
+              <div class="left-logo">
+                  <img src="" alt="Company Logo" class="company-logo">
+              </div>
+              <div class="right-logo">
+                  <img src="" alt="Legal Symbol" class="legal-symbol">
+              </div>
+          </div>
+          
+          <!-- Arabic info banner -->
+          <div class="arabic-banner">
+              <img src="" alt="Arabic Info" class="arabic-info">
+          </div>
+          
+          <!-- Profile section -->
+          <div class="profile-section">
+              <div class="profile-circle">
+                  <img src="" alt="Profile Photo" class="profile-img">
+              </div>
+          </div>
+          
+          <!-- Name and title section -->
+          <div class="identity-section">
+              <h1 class="name"></h1>
+              <h2 class="position"></h2>
+              
+              <!-- Certification text -->
+              <div class="certification-text">
+                  <p class="license-text"></p>
+                  <p class="arabic-text"></p>
+              </div>
+          </div>
+          
+          <!-- Description section -->
+          <div class="description-container">
+              <p class="description"></p>
+          </div>
+          
+          <!-- Contact information -->
+          <div class="contact-info">
+              <div class="contact-item">
+                  <div class="contact-icon">
+                      <i class="fas fa-envelope"></i>
+                  </div>
+                  <div class="contact-details">
+                      <span class="email"></span>
+                      <span class="label">Work</span>
+                  </div>
+              </div>
+              
+              <div class="contact-item">
+                  <div class="contact-icon">
+                      <i class="fas fa-phone"></i>
+                  </div>
+                  <div class="contact-details">
+                      <span class="phone"></span>
+                      <span class="label">Work</span>
+                  </div>
+              </div>
+              
+              <div class="contact-item whatsapp-item">
+                  <div class="contact-icon">
+                      <i class="fab fa-whatsapp"></i>
+                  </div>
+                  <div class="contact-details">
+                      <span class="text">Connect with me on WhatsApp</span>
+                  </div>
+              </div>
+              
+              <div class="contact-item website-item">
+                  <div class="contact-icon">
+                      <i class="fas fa-globe"></i>
+                  </div>
+                  <div class="contact-details">
+                      <span class="text">Visit our website</span>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Save contact button -->
+          <div class="save-contact-container">
+              <button class="save-contact">Save Contact</button>
+          </div>
+      </div>`;
+    }
+  }
+
+  /**
+   * Update the CSS styles for the templates
+   */
+  function updateTemplateCSS() {
+    // Create a new style element
+    const styleEl = document.createElement("style");
+
+    // Add updated CSS
+    styleEl.textContent = `
+      /* ==============================
+         Classic Card Styles - Enhanced with Animations 
+         ============================== */
+      .classic-card {
+          background: white;
+          padding: 0;
+          text-align: center;
+          border-radius: 24px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+          max-width: 350px;
+          height: 600px;
+          margin: 0 auto;
+          position: relative;
+          font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+          display: flex;
+          flex-direction: column;
+      }
+      
+      .classic-header {
+          width: 100%;
+          height: 100px;
+          overflow: hidden;
+          background-color: #fff;
+      }
+      
+      .classic-header .cover-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          background-color: #fff;
+      }
+      
+      .classic-card .profile-section {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          padding: 0 20px;
+          position: relative;
+          margin-top: -40px;
+          margin-bottom: 20px;
+      }
+      
+      .classic-card .profile-container {
+          z-index: 2;
+      }
+      
+      .classic-card .profile-circle {
+          width: 80px;
+          height: 80px;
+          border: 3px solid #8B0000;
+          border-radius: 50%;
+          overflow: hidden;
+          background: white;
+          padding: 0;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease;
+      }
+      
+      .classic-card:hover .profile-circle {
+          transform: scale(1.05);
+          border-color: #b10000;
+      }
+      
+      .classic-card .profile-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+      }
+      
+      .classic-card .company-logo-container {
+          width: 120px;
+          height: 80px;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          padding: 8px;
+          transition: all 0.3s ease;
+      }
+      
+      .classic-card:hover .company-logo-container {
+          transform: translateY(-5px);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+      
+      .classic-card .company-logo {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+      }
+      
+      .classic-card .identity-section {
+          padding: 10px 20px 5px;
+          text-align: center;
+          animation: fadeIn 0.6s ease-out;
+      }
+      
+      .classic-card .name {
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: #333;
+          margin: 0;
+          text-align: center;
+          letter-spacing: -0.02em;
+          transition: all 0.3s ease;
+      }
+      
+      .classic-card:hover .name {
+          color: #8B0000;
+      }
+      
+      .classic-card .position {
+          font-size: 1.1rem;
+          color: #666;
+          font-weight: 500;
+          margin: 8px 0 20px;
+          text-transform: none;
+          text-align: center;
+      }
+      
+      .classic-card .description {
+          font-size: 0.9rem;
+          line-height: 1.5;
+          color: #333;
+          text-align: left;
+          padding: 15px;
+          margin: 0 20px 15px;
+          background: #f8f9fa;
+          border-radius: 10px;
+      }
+      
+      .classic-card .contact-info {
+          padding: 5px 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+      }
+      
+      .classic-card .contact-item {
+          display: flex;
+          align-items: center;
+          padding: 10px 0;
+          border-bottom: none;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          color: #333;
+          cursor: pointer;
+      }
+      
+      .classic-card .contact-item:hover {
+          color: #8B0000;
+          transform: translateX(5px);
+          background-color: rgba(0, 0, 0, 0.02);
+          border-radius: 8px;
+      }
+      
+      .classic-card .icon {
+          width: 40px;
+          height: 40px;
+          background: #f8f9fa;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 15px;
+          font-size: 16px;
+          color: inherit;
+          transition: all 0.3s ease;
+      }
+      
+      .classic-card .contact-item:hover .icon {
+          background: #8B0000;
+          color: white;
+          transform: scale(1.1);
+      }
+      
+      .classic-card .contact-details {
+          display: flex;
+          flex-direction: column;
+      }
+      
+      .classic-card .email, 
+      .classic-card .phone,
+      .classic-card .text {
+          flex: 1;
+          font-size: 14px;
+          color: inherit;
+          font-weight: 500;
+          text-align: left;
+      }
+      
+      .classic-card .label {
+          font-size: 12px;
+          color: #666;
+          background: transparent;
+          padding: 0;
+          margin-left: 0;
+          text-align: left;
+          display: block;
+          margin-top: 2px;
+      }
+      
+      .classic-card .save-contact {
+          background: #000;
+          color: white;
+          border: none;
+          border-radius: 30px;
+          width: 90%;
+          margin: 15px auto;
+          padding: 14px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+      }
+      
+      .classic-card .save-contact::before {
+          content: "";
+          display: inline-block;
+          background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>');
+          width: 18px;
+          height: 18px;
+          background-size: contain;
+          background-repeat: no-repeat;
+          margin-right: 8px;
+          transition: all 0.3s ease;
+      }
+      
+      .classic-card .save-contact:hover {
+          background: #333;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      }
+      
+      .classic-card .save-contact:hover::before {
+          transform: rotate(10deg) scale(1.2);
+      }
+      
+      .classic-card .powered-by {
+          text-align: center;
+          padding: 10px 0 20px;
+          color: #888;
+          font-size: 0.9rem;
+          margin-top: auto;
+      }
+      
+      .classic-card .powered-by-brand {
+          font-weight: 600;
+          color: #8B0000;
+      }
+      
+      .classic-card a.powered-by-brand {
+          text-decoration: none;
+          color: #8B0000;
+          transition: all 0.3s ease;
+      }
+      
+      .classic-card a.powered-by-brand:hover {
+          text-decoration: underline;
+          color: #b10000;
+      }
+      
+      /* Animation keyframes */
+      @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+      
+      @keyframes icon-idle {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-3px); }
+      }
+      
+      .business-card {
+          animation: cardEntrance 0.8s ease-out;
+      }
+      
+      @keyframes cardEntrance {
+          from { opacity: 0; transform: translateY(50px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+      
+      /* ==============================
+         Modern Card Styles
+         ============================== */
+      .modern-card {
+          background: white;
+          padding: 0;
+          border-radius: 15px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+          max-width: 350px;
+          margin: 0 auto;
+          font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+      }
+      
+      .modern-header {
+          display: flex;
+          justify-content: space-between;
+          padding: 15px;
+      }
+      
+      .modern-header .left-logo {
+          width: 120px;
+          display: flex;
+          align-items: center;
+      }
+      
+      .modern-header .company-logo {
+          max-width: 100%;
+          height: auto;
+      }
+      
+      .modern-header .right-logo {
+          width: 150px;
+          height: 100px;
+      }
+      
+      .modern-header .legal-symbol {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 5px;
+      }
+      
+      .arabic-banner {
+          padding: 10px 15px;
+          background-color: #f9f9f9;
+          border-top: 1px solid #eee;
+          border-bottom: 1px solid #eee;
+          text-align: right;
+      }
+      
+      .arabic-banner .arabic-info {
+          max-width: 100%;
+          height: auto;
+      }
+      
+      .modern-card .profile-section {
+          padding: 20px 15px 10px;
+      }
+      
+      .modern-card .profile-circle {
+          width: 85px;
+          height: 85px;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 3px solid white;
+          box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      }
+      
+      .modern-card .profile-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+      }
+      
+      .modern-card .identity-section {
+          padding: 5px 15px 10px;
+          text-align: left;
+      }
+      
+      .modern-card .name {
+          font-size: 24px;
+          font-weight: 700;
+          color: #333;
+          margin: 0 0 5px 0;
+      }
+      
+      .modern-card .position {
+          font-size: 16px;
+          color: #555;
+          margin: 0 0 15px;
+      }
+      
+      .modern-card .certification-text {
+          margin-bottom: 15px;
+      }
+      
+      .modern-card .license-text {
+          font-size: 13px;
+          font-style: italic;
+          color: #666;
+          margin: 0 0 5px;
+      }
+      
+      .modern-card .arabic-text {
+          font-size: 13px;
+          color: #666;
+          direction: rtl;
+          text-align: right;
+          margin: 0;
+      }
+      
+      .modern-card .description-container {
+          padding: 5px 15px 15px;
+      }
+      
+      .modern-card .description {
+          font-size: 14px;
+          line-height: 1.5;
+          color: #555;
+          text-align: left;
+          margin: 0;
+      }
+      
+      .modern-card .contact-info {
+          padding: 5px 15px 20px;
+      }
+      
+      .modern-card .contact-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 15px;
+      }
+      
+      .modern-card .contact-icon {
+          width: 36px;
+          height: 36px;
+          background-color: #333;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 15px;
+      }
+      
+      .modern-card .contact-icon i {
+          color: white;
+          font-size: 16px;
+      }
+      
+      .modern-card .contact-details {
+          display: flex;
+          flex-direction: column;
+      }
+      
+      .modern-card .contact-details .email,
+      .modern-card .contact-details .phone,
+      .modern-card .contact-details .text {
+          font-size: 14px;
+          color: #333;
+      }
+      
+      .modern-card .contact-details .label {
+          font-size: 12px;
+          color: #999;
+          background: transparent;
+          padding: 0;
+      }
+      
+      .modern-card .save-contact-container {
+          padding: 0 15px 25px;
+      }
+      
+      .modern-card .save-contact {
+          background: #333;
+          color: white;
+          border: none;
+          border-radius: 25px;
+          width: 100%;
+          padding: 12px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+      }
+      
+      /* Animations and effects */
+      .contact-item {
+          transition: all 0.3s ease;
+      }
+      
+      .contact-item:hover {
+          transform: translateX(5px);
+      }
+      
+      .save-contact {
+          transition: all 0.3s ease;
+      }
+      
+      .save-contact:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+    `;
+
+    // Append the style element to the head
+    document.head.appendChild(styleEl);
+  }
 
   /**
    * Set up image upload handling
@@ -192,15 +941,60 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /**
-   * Set up the classic template with specific data
+   * Set up the classic template with specific data (Image 1)
    * @param {DocumentFragment} cardElement - The card template clone
    * @param {Object} data - Card data from form
    */
   function setupClassicTemplate(cardElement, data) {
+    // Set profile image
+    const profileImg = cardElement.querySelector(".profile-img");
+    if (profileImg) {
+      if (imageData.profile) {
+        profileImg.src = imageData.profile;
+      } else {
+        profileImg.src = "https://via.placeholder.com/80?text=Profile";
+      }
+    }
+
+    // Set company logo
+    const companyLogo = cardElement.querySelector(".company-logo");
+    if (companyLogo) {
+      if (imageData.logo) {
+        companyLogo.src = imageData.logo;
+      } else {
+        companyLogo.src = "https://via.placeholder.com/120?text=Logo";
+      }
+    }
+
+    // Set cover image
+    const coverImage = cardElement.querySelector(".cover-image");
+    if (coverImage) {
+      if (imageData.background) {
+        coverImage.src = imageData.background;
+      } else {
+        coverImage.src = "https://via.placeholder.com/350x100?text=Cover";
+      }
+    }
+
+    // Set email and phone in the contact details
+    const emailElement = cardElement.querySelector(".email-item .email");
+    if (emailElement) {
+      emailElement.textContent = data.email;
+    }
+
+    const phoneElement = cardElement.querySelector(".phone-item .phone");
+    if (phoneElement) {
+      phoneElement.textContent = data.phone;
+    }
+
     // Handle WhatsApp
     const whatsappItem = cardElement.querySelector(".whatsapp-item");
     if (data.whatsapp) {
       whatsappItem.style.display = "flex";
+      const whatsappText = cardElement.querySelector(".whatsapp-item .text");
+      if (whatsappText) {
+        whatsappText.textContent = "Connect with me on WhatsApp";
+      }
     } else {
       whatsappItem.style.display = "none";
     }
@@ -209,21 +1003,95 @@ document.addEventListener("DOMContentLoaded", function () {
     const websiteItem = cardElement.querySelector(".website-item");
     if (data.website) {
       websiteItem.style.display = "flex";
+      const websiteText = cardElement.querySelector(".website-item .text");
+      if (websiteText) {
+        websiteText.textContent = "Visit our website";
+      }
     } else {
       websiteItem.style.display = "none";
     }
+
+    // Add hover animations
+    addHoverAnimations(cardElement);
   }
 
   /**
-   * Set up the modern template with specific data
+   * Add hover animations to the classic card
+   * @param {DocumentFragment} cardElement - The card template clone
+   */
+  function addHoverAnimations(cardElement) {
+    const card = cardElement.querySelector(".classic-card");
+    if (!card) return;
+
+    // Add entrance animation
+    setTimeout(() => {
+      card.style.opacity = "1";
+      card.style.transform = "translateY(0)";
+    }, 100);
+
+    // Add contact item hover effects
+    const contactItems = card.querySelectorAll(".contact-item");
+    contactItems.forEach((item) => {
+      item.addEventListener("mouseenter", function () {
+        this.style.transform = "translateX(5px)";
+        const icon = this.querySelector(".icon");
+        if (icon) {
+          icon.style.backgroundColor = "#8B0000";
+          icon.style.color = "white";
+        }
+      });
+
+      item.addEventListener("mouseleave", function () {
+        this.style.transform = "translateX(0)";
+        const icon = this.querySelector(".icon");
+        if (icon) {
+          icon.style.backgroundColor = "";
+          icon.style.color = "";
+        }
+      });
+    });
+  }
+
+  /**
+   * Set up the modern template with specific data (Image 2)
    * @param {DocumentFragment} cardElement - The card template clone
    * @param {Object} data - Card data from form
    */
   function setupModernTemplate(cardElement, data) {
-    // Set certification text (can be customized based on data)
+    // Set profile image
+    const profileImg = cardElement.querySelector(".profile-img");
+    if (profileImg) {
+      if (imageData.profile) {
+        profileImg.src = imageData.profile;
+      } else {
+        profileImg.src = "https://via.placeholder.com/85?text=Profile";
+      }
+    }
+
+    // Set company logo
+    const companyLogo = cardElement.querySelector(".company-logo");
+    if (companyLogo) {
+      if (imageData.logo) {
+        companyLogo.src = imageData.logo;
+      } else {
+        companyLogo.src = "https://via.placeholder.com/120x60?text=Logo";
+      }
+    }
+
+    // Set legal symbol/background image
+    const legalSymbol = cardElement.querySelector(".legal-symbol");
+    if (legalSymbol) {
+      if (imageData.background) {
+        legalSymbol.src = imageData.background;
+      } else {
+        legalSymbol.src = "https://via.placeholder.com/150x100?text=Symbol";
+      }
+    }
+
+    // Set certification text
     const licenseText = cardElement.querySelector(".license-text");
     if (licenseText) {
-      licenseText.textContent = `"Licensed by the Ministry of Commerce - ${data.company} Professional"`;
+      licenseText.textContent = `"Licensed by the Ministry of Justice - Kingdom of Bahrain"`;
     }
 
     // Handle WhatsApp
@@ -240,20 +1108,6 @@ document.addEventListener("DOMContentLoaded", function () {
       websiteItem.style.display = "flex";
     } else {
       websiteItem.style.display = "none";
-    }
-
-    // Set company logo if available
-    if (imageData.logo) {
-      const companyLogo = cardElement.querySelector(".company-logo");
-      if (companyLogo) {
-        companyLogo.src = imageData.logo;
-      }
-    }
-
-    // Set optional background elements (could be customized based on data)
-    const companyTagline = cardElement.querySelector(".company-tagline");
-    if (companyTagline) {
-      companyTagline.textContent = `${data.company} - Professional Services`;
     }
   }
 
@@ -334,9 +1188,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-      // Add background image for elegant template
-      if (templateType === "elegant" && imageData.background) {
-        // Could add background to elegant template if needed
+      // Add background image for classic template
+      if (templateType === "classic") {
+        const coverImage = cardElement.querySelector(".cover-image");
+        if (coverImage && imageData.background) {
+          coverImage.src = imageData.background;
+        }
       }
     }
   }
@@ -357,9 +1214,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // WhatsApp links
     if (data.whatsapp) {
-      const whatsappElements = cardElement.querySelectorAll(
-        ".whatsapp-item, .whatsapp-block, .whatsapp-item"
-      );
+      const whatsappElements = cardElement.querySelectorAll(".whatsapp-item");
       whatsappElements.forEach((el) => {
         el.addEventListener("click", () => {
           window.open(`https://wa.me/${data.whatsapp.replace(/[^0-9]/g, "")}`);
@@ -369,9 +1224,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Website links
     if (data.website) {
-      const websiteElements = cardElement.querySelectorAll(
-        ".website-item, .website-block, .website-item"
-      );
+      const websiteElements = cardElement.querySelectorAll(".website-item");
       websiteElements.forEach((el) => {
         el.addEventListener("click", () => {
           window.open(data.website);
@@ -380,9 +1233,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Email elements
-    const emailElements = cardElement.querySelectorAll(
-      ".email-item, .email-block, .elegant-contact-item:nth-child(1)"
-    );
+    const emailElements = cardElement.querySelectorAll(".email-item");
     emailElements.forEach((el) => {
       el.addEventListener("click", () => {
         window.location.href = `mailto:${data.email}`;
@@ -390,9 +1241,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Phone elements
-    const phoneElements = cardElement.querySelectorAll(
-      ".phone-item, .phone-block, .elegant-contact-item:nth-child(2)"
-    );
+    const phoneElements = cardElement.querySelectorAll(".phone-item");
     phoneElements.forEach((el) => {
       el.addEventListener("click", () => {
         window.location.href = `tel:${data.phone}`;
@@ -540,70 +1389,81 @@ document.addEventListener("DOMContentLoaded", function () {
    */
   function generateClassicCardHTML(data) {
     return `<div class="business-card classic-card">
-            <div class="card-header">
-                <div class="logo-container">
-                    <img src="assets/media/logo.jpg" alt="Logo" class="logo"
-                        onerror="this.src='https://via.placeholder.com/50?text=Logo'">
-                </div>
-                <div class="company-card-container">
-                    <img src="" alt="Company Card" class="company-card"
-                        onerror="this.src='https://via.placeholder.com/80x50?text=Company'">
-                </div>
-            </div>
-
-            <div class="profile-section">
+        <div class="classic-header">
+            <img src="assets/media/background.jpg" alt="Cover" class="cover-image"
+                onerror="this.src='https://via.placeholder.com/350x100?text=Cover'">
+        </div>
+  
+        <div class="profile-section">
+            <div class="profile-container">
                 <div class="profile-circle">
                     <img src="assets/media/profile.jpg" alt="Profile" class="profile-img"
-                        onerror="this.src='https://via.placeholder.com/150?text=Profile'">
+                        onerror="this.src='https://via.placeholder.com/80?text=Profile'">
                 </div>
             </div>
-
+            <div class="company-logo-container">
+                <img src="assets/media/logo.jpg" alt="Company Logo" class="company-logo"
+                    onerror="this.src='https://via.placeholder.com/120?text=Logo'">
+            </div>
+        </div>
+  
+        <div class="identity-section">
             <h1 class="name">${data.name}</h1>
             <h2 class="position">${data.position} - ${data.company}</h2>
-
-            <p class="description">${
-              data.description ||
-              "A professional focused on delivering innovative, high-quality technical services that exceed client expectations."
-            }</p>
-
-            <div class="contact-info">
-                <div class="contact-item email-item">
-                    <span class="icon"><i class="fas fa-envelope"></i></span>
-                    <span class="email">${data.email}</span>
-                    <span class="label">Work</span>
+        </div>
+  
+        <p class="description">${
+          data.description ||
+          "A Bahraini technology leader focused on innovation with a clear strategy, striving for excellence in providing innovative, high-quality technical services that satisfy clients."
+        }</p>
+  
+        <div class="contact-info">
+            <div class="contact-item email-item">
+                <span class="icon"><i class="fas fa-envelope"></i></span>
+                <div class="contact-details">
+                  <span class="email">${data.email}</span>
+                  <span class="label">Work</span>
                 </div>
-
-                <div class="contact-item phone-item">
-                    <span class="icon"><i class="fas fa-phone"></i></span>
-                    <span class="phone">${data.phone}</span>
-                    <span class="label">Work</span>
+            </div>
+  
+            <div class="contact-item phone-item">
+                <span class="icon"><i class="fas fa-phone"></i></span>
+                <div class="contact-details">
+                  <span class="phone">${data.phone}</span>
+                  <span class="label">Work</span>
                 </div>
-
-                ${
-                  data.whatsapp
-                    ? `<div class="contact-item whatsapp-item">
+            </div>
+  
+            ${
+              data.whatsapp
+                ? `<div class="contact-item whatsapp-item">
                     <span class="icon"><i class="fab fa-whatsapp"></i></span>
-                    <span class="text">Connect on WhatsApp</span>
-                </div>`
-                    : ""
-                }
-
-                ${
-                  data.website
-                    ? `<div class="contact-item website-item">
+                    <div class="contact-details">
+                      <span class="text">Connect with me on WhatsApp</span>
+                    </div>
+                  </div>`
+                : ""
+            }
+  
+            ${
+              data.website
+                ? `<div class="contact-item website-item">
                     <span class="icon"><i class="fas fa-globe"></i></span>
-                    <span class="text">Visit our website</span>
-                </div>`
-                    : ""
-                }
-            </div>
-
-            <button class="save-contact">Save Contact</button>
-
-            <div class="powered-by">
-                Powered by <strong>Bcaitech</strong>
-            </div>
-        </div>`;
+                    <div class="contact-details">
+                      <span class="text">Visit our website</span>
+                    </div>
+                  </div>`
+                : ""
+            }
+        </div>
+  
+        <button class="save-contact">Save Contact</button>
+  
+        <div class="powered-by">
+            Powered by <a href="https://bcaitech.bh/" target="_blank"
+                    rel="noopener noreferrer" class="powered-by-brand">Bcaitech</a>
+        </div>
+    </div>`;
   }
 
   /**
@@ -613,86 +1473,79 @@ document.addEventListener("DOMContentLoaded", function () {
    */
   function generateModernCardHTML(data) {
     return `<div class="business-card modern-card">
-            <!-- Top header with logos -->
-            <div class="modern-header">
-                <div class="header-left">
-                    <img src="assets/media/logo.jpg" alt="Company Logo" class="company-logo"
-                        onerror="this.src='https://via.placeholder.com/150x60?text=${
-                          data.company
-                        }'">
+        <!-- Top header with logos -->
+        <div class="modern-header">
+            <div class="left-logo">
+                <img src="assets/media/logo.jpg" alt="Company Logo" class="company-logo"
+                  >
+            </div>
+            <div class="right-logo">
+                <img src="assets/media/background.jpg" alt="Legal Symbol" class="legal-symbol" 
+                    >
+            </div>
+        </div>
+        
+        <!-- Arabic info banner -->
+        <div class="arabic-banner">
+            <p class="company-tagline">${
+              data.company
+            } - Professional Services</p>
+        </div>
+        
+        <!-- Profile section -->
+        <div class="profile-section">
+            <div class="profile-circle">
+                <img src="assets/media/profile.jpg" alt="Profile Photo" class="profile-img"
+                  >
+            </div>
+        </div>
+        
+        <!-- Name and title section -->
+        <div class="identity-section">
+            <h1 class="name">${data.name}</h1>
+            <h2 class="position">${data.position}</h2>
+            
+            <!-- Certification text -->
+            <div class="certification-text">
+                <p class="license-text">"Licensed by the Ministry of Justice - Kingdom of Bahrain"</p>
+            </div>
+        </div>
+        
+        <!-- Description section -->
+        <div class="description-container">
+            <p class="description">${
+              data.description ||
+              "At " +
+                data.company +
+                ", we specialize in precise judicial enforcement and asset recovery services, ensuring swift justice, safeguarding your rights, and delivering exceptional legal solutions with integrity and efficiency."
+            }</p>
+        </div>
+        
+        <!-- Contact information -->
+        <div class="contact-info">
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
                 </div>
-                <div class="header-right">
-                    <img src="assets/media/legal-symbol.jpg" alt="Legal Symbol" class="legal-symbol" 
-                         onerror="this.src='https://via.placeholder.com/150x100?text=Professional'">
+                <div class="contact-details">
+                    <span class="email">${data.email}</span>
+                    <span class="label">Work</span>
                 </div>
             </div>
             
-            <!-- Company branding section -->
-            <div class="brand-ribbon">
-                <div class="ribbon-content">
-                    <p class="company-tagline">${
-                      data.company
-                    } - Professional Services</p>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="contact-details">
+                    <span class="phone">${data.phone}</span>
+                    <span class="label">Work</span>
                 </div>
             </div>
             
-            <!-- Profile section -->
-            <div class="profile-section">
-                <div class="profile-circle">
-                    <img src="assets/media/profile.jpg" alt="Profile Photo" class="profile-img"
-                        onerror="this.src='https://via.placeholder.com/80?text=Profile'">
-                </div>
-            </div>
-            
-            <!-- Name and title section -->
-            <div class="identity-section">
-                <h1 class="name">${data.name}</h1>
-                <h2 class="position">${data.position}</h2>
-                
-                <!-- Certification text -->
-                <div class="certification-text">
-                    <p class="license-text">"Licensed by the Ministry of Commerce - ${
-                      data.company
-                    } Professional"</p>
-                    <p class="arabic-text">جهة مرخصة من وزارة التجارة لممارسة أنشطة التقنية المالية</p>
-                </div>
-            </div>
-            
-            <!-- Description section -->
-            <div class="description-container">
-                <p class="description">${
-                  data.description ||
-                  "At " +
-                    data.company +
-                    ", we specialize in precise professional services, ensuring excellence and safeguarding client interests, delivering exceptional solutions with integrity and efficiency."
-                }</p>
-            </div>
-            
-            <!-- Contact information -->
-            <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="contact-details">
-                        <span class="email">${data.email}</span>
-                        <span class="label">Work</span>
-                    </div>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div class="contact-details">
-                        <span class="phone">${data.phone}</span>
-                        <span class="label">Work</span>
-                    </div>
-                </div>
-                
-                ${
-                  data.whatsapp
-                    ? `<div class="contact-item whatsapp-item">
+            ${
+              data.whatsapp
+                ? `<div class="contact-item whatsapp-item">
                     <div class="contact-icon">
                         <i class="fab fa-whatsapp"></i>
                     </div>
@@ -700,12 +1553,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         <span class="text">Connect with me on WhatsApp</span>
                     </div>
                 </div>`
-                    : ""
-                }
-                
-                ${
-                  data.website
-                    ? `<div class="contact-item website-item">
+                : ""
+            }
+            
+            ${
+              data.website
+                ? `<div class="contact-item website-item">
                     <div class="contact-icon">
                         <i class="fas fa-globe"></i>
                     </div>
@@ -713,15 +1566,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         <span class="text">Visit our website</span>
                     </div>
                 </div>`
-                    : ""
-                }
-            </div>
-            
-            <!-- Save contact button -->
-            <div class="save-contact-container">
-                <button class="save-contact">Save Contact</button>
-            </div>
-        </div>`;
+                : ""
+            }
+        </div>
+        
+        <!-- Save contact button -->
+        <div class="save-contact-container">
+            <button class="save-contact">Save Contact</button>
+        </div>
+    </div>`;
   }
 
   /**
@@ -734,7 +1587,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="elegant-header">
                 <div class="company-logo">
                     <img src="assets/media/logo.jpg" alt="Logo" class="logo"
-                        onerror="this.src='https://via.placeholder.com/40?text=Logo'">
+                     >
                 </div>
                 <div class="company-name">${data.company}</div>
             </div>
@@ -742,7 +1595,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="elegant-profile">
                 <div class="profile-container">
                     <img src="assets/media/profile.jpg" alt="Profile" class="profile-img"
-                        onerror="this.src='https://via.placeholder.com/120?text=Profile'">
+                     >
                 </div>
                 <h1 class="name">${data.name}</h1>
                 <h2 class="position">${data.position}</h2>
@@ -788,7 +1641,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <button class="save-contact elegant-save">Save Contact</button>
             
             <div class="elegant-footer">
-                Powered by <strong>Bcaitech</strong>
+                Powered by <a href="https://bcaitech.bh/" target="_blank"
+                    rel="noopener noreferrer" class="powered-by-brand">Bcaitech</a>
             </div>
         </div>`;
   }
@@ -820,6 +1674,28 @@ body {
 .card-container {
     max-width: 500px;
     margin: 0 auto;
+}
+
+/* Animation keyframes */
+@keyframes cardEntrance {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes icon-idle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+@keyframes ripple {
+    0% { transform: scale(0, 0); opacity: 0.5; }
+    20% { transform: scale(25, 25); opacity: 0.3; }
+    100% { opacity: 0; transform: scale(40, 40); }
 }`;
 
     // Generate template-specific CSS
@@ -850,10 +1726,13 @@ body {
 .business-card {
     width: 350px;
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    position: relative;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    animation: cardEntrance 0.8s ease-out;
 }
 
 .business-card:hover {
@@ -863,147 +1742,290 @@ body {
 
 .classic-card {
     background: white;
-    padding: 25px;
+    padding: 0;
     text-align: center;
+    width: 350px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.card-header {
+/* Header with cover image */
+.classic-header {
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+}
+
+.classic-header .cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Profile and company logo section */
+.profile-section {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
+    padding: 0 20px;
+    position: relative;
+    margin-top: -40px;
     margin-bottom: 20px;
 }
 
-.logo {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.company-card {
-    width: 80px;
-    height: 50px;
-    border-radius: 5px;
-    object-fit: cover;
-}
-
-.profile-section {
-    margin-bottom: 25px;
+.profile-container {
+    z-index: 2;
 }
 
 .profile-circle {
-    width: 100px;
-    height: 100px;
-    border: 3px solid #007bff;
+    width: 80px;
+    height: 80px;
+    background: white;
     border-radius: 50%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
+    border: 3px solid #8B0000;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.classic-card:hover .profile-circle {
+    transform: scale(1.05);
+    border-color: #b10000;
 }
 
 .profile-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
 }
 
-.name {
-    font-size: 24px;
-    margin: 15px 0 5px;
-    color: #212529;
-    font-weight: 700;
-}
-
-.position {
-    font-size: 16px;
-    color: #6c757d;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-
-.description {
-    color: #495057;
-    margin-bottom: 30px;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.contact-info {
-    margin-bottom: 25px;
-    text-align: left;
-}
-
-.contact-item {
+.company-logo-container {
+    width: 120px;
+    height: 80px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
-    padding: 8px 12px;
-    border-radius: 5px;
-    background: #f8f9fa;
+    justify-content: center;
+    overflow: hidden;
+    padding: 8px;
     transition: all 0.3s ease;
-    cursor: pointer;
 }
 
-.contact-item:hover {
-    background: #e9ecef;
-    transform: translateX(5px);
+.classic-card:hover .company-logo-container {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.contact-item .icon {
-    margin-right: 15px;
-    font-size: 18px;
-    color: #007bff;
-    width: 20px;
+.company-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Identity section */
+.identity-section {
+    padding: 10px 20px 5px;
+    text-align: center;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.classic-card .name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #000;
+    margin: 0;
+    text-align: center;
+    letter-spacing: -0.02em;
+    transition: all 0.3s ease;
+}
+
+.classic-card:hover .name {
+    color: #8B0000;
+}
+
+.classic-card .position {
+    font-size: 1.1rem;
+    color: #666;
+    font-weight: 500;
+    margin: 8px 0 20px;
+    text-transform: none;
     text-align: center;
 }
 
-.contact-item .text {
-    flex-grow: 1;
-    font-size: 14px;
-    color: #495057;
+.classic-card .description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+    padding: 15px;
+    margin: 0 20px 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
 }
 
-.email, .phone {
-    flex-grow: 1;
-    font-size: 14px;
-    color: #495057;
+/* Contact info styling */
+.classic-card .contact-info {
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.label {
-    background: #e9ecef;
-    padding: 3px 8px;
-    border-radius: 3px;
-    font-size: 12px;
-    color: #6c757d;
-}
-
-.save-contact {
-    background: #343a40;
-    color: white;
-    width: 100%;
-    padding: 12px;
-    border-radius: 30px;
-    margin-bottom: 20px;
-    font-weight: 600;
-    border: none;
+.classic-card .contact-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: none;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    color: #333;
     cursor: pointer;
+}
+
+.classic-card .contact-item:hover {
+    color: #8B0000;
+    transform: translateX(5px);
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+}
+
+.classic-card .icon {
+    width: 40px;
+    height: 40px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    font-size: 16px;
+    color: inherit;
+    animation: icon-idle 2s infinite ease-in-out;
     transition: all 0.3s ease;
 }
 
-.save-contact:hover {
-    background: #212529;
-    transform: translateY(-2px);
+.classic-card .contact-item:hover .icon {
+    background: #8B0000;
+    color: white;
+    transform: scale(1.1);
 }
 
-.powered-by {
-    color: #adb5bd;
-    font-size: 14px;
-    margin-top: 15px;
+.classic-card .contact-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.classic-card .email,
+.classic-card .phone,
+.classic-card .text {
+    flex: 1;
+    font-size: 0.95rem;
+    color: inherit;
+    font-weight: 500;
+    text-align: left;
+}
+
+.classic-card .label {
+    font-size: 0.8rem;
+    color: #666;
+    background: transparent;
+    padding: 0;
+    margin-left: 0;
+    text-align: left;
+    display: block;
+    margin-top: 2px;
+}
+
+/* Save contact button */
+.classic-card .save-contact {
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    width: 90%;
+    margin: 15px auto;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.classic-card .save-contact::before {
+    content: "";
+    display: inline-block;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>');
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+}
+
+.classic-card .save-contact:hover {
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.classic-card .save-contact:hover::before {
+    transform: rotate(10deg) scale(1.2);
+}
+
+.classic-card .save-contact::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.classic-card .save-contact:hover::after {
+    animation: ripple 1s ease-out;
+}
+
+/* Powered by section */
+.classic-card .powered-by {
+    text-align: center;
+    padding: 10px 0 20px;
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+.powered-by-brand {
+    font-weight: 600;
+    color: #8B0000;
+}
+
+.classic-card a.powered-by-brand {
+    text-decoration: none;
+    color: #8B0000;
+    transition: all 0.3s ease;
+}
+
+.classic-card a.powered-by-brand:hover {
+    color: #b10000;
+    text-decoration: underline;
 }`;
   }
 
@@ -1016,28 +2038,54 @@ body {
 /* Modern Card Styles */
 .business-card {
     width: 350px;
+    height: 650px;
     margin: 0 auto;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
+    animation: cardEntrance 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 .business-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px) rotateX(2deg) rotateY(2deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .modern-card {
-    position: relative;
+    background: white;
     padding: 0;
-    background: #fff;
     color: #333;
     overflow: hidden;
-    height: 650px;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
+.modern-card::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.05) 0%,
+            rgba(255, 255, 255, 0) 100%);
+    z-index: -1;
+    transform: translateZ(-10px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.modern-card:hover::before {
+    opacity: 1;
 }
 
 /* Header Section */
@@ -1045,91 +2093,252 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 15px;
-    border-bottom: 1px solid #f1f1f1;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-.header-left {
+.modern-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05), transparent);
+    transform: scaleX(0.7);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.modern-card:hover .modern-header::after {
+    transform: scaleX(1);
+    opacity: 1;
+}
+
+.left-logo {
+    width: 120px;
     display: flex;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+    transition: transform 0.3s ease;
+}
+
+.modern-card:hover .left-logo {
+    transform: translateZ(20px) scale(1.03);
 }
 
 .company-logo {
-    height: 60px;
-    object-fit: contain;
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    transition: all 0.4s ease;
 }
 
-.header-right {
+.modern-card:hover .company-logo {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.right-logo {
+    width: 150px;
     height: 100px;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.modern-card:hover .right-logo {
+    transform: translateZ(30px) scale(1.05);
 }
 
 .legal-symbol {
-    height: 100px;
-    border-radius: 5px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    border-radius: 5px;
+    transition: all 0.5s ease;
+    transform: scale(1);
+    filter: contrast(1) brightness(1);
+}
+
+.modern-card:hover .legal-symbol {
+    transform: scale(1.08);
+    filter: contrast(1.1) brightness(1.05);
 }
 
 /* Company Branding */
-.brand-ribbon {
-    background-color: #f8f8f8;
-    padding: 8px 15px;
+.arabic-banner {
+    background-color: rgba(249, 249, 249, 0.9);
+    padding: 10px 15px;
     text-align: right;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.arabic-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.02), transparent);
+    transform: translateX(-100%);
+    transition: transform 2s ease;
+}
+
+.modern-card:hover .arabic-banner::before {
+    transform: translateX(100%);
 }
 
 .company-tagline {
     font-size: 12px;
     color: #777;
     margin: 0;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.modern-card:hover .company-tagline {
+    color: #555;
+    letter-spacing: 0.2px;
 }
 
 /* Profile Section */
 .profile-section {
-    display: flex;
-    justify-content: flex-start;
-    padding: 15px;
-    margin-top: 10px;
+    padding: 20px 15px 10px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.modern-card:hover .profile-section {
+    transform: translateZ(15px);
 }
 
 .profile-circle {
-    width: 80px;
-    height: 80px;
+    width: 85px;
+    height: 85px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #fff;
+    border: 3px solid white;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.profile-circle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0.6);
+    transition: box-shadow 0.4s ease;
+}
+
+.modern-card:hover .profile-circle {
+    transform: scale(1.1) translateZ(30px);
+    border-width: 4px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modern-card:hover .profile-circle::after {
+    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.6);
 }
 
 .profile-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: all 0.5s ease;
+    transform: scale(1);
+    filter: contrast(1) brightness(1);
+}
+
+.modern-card:hover .profile-img {
+    transform: scale(1.1);
+    filter: contrast(1.05) brightness(1.05);
 }
 
 /* Identity Section */
 .identity-section {
-    padding: 0 20px;
+    padding: 5px 15px 10px;
     text-align: left;
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.modern-card:hover .identity-section {
+    transform: translateZ(20px);
 }
 
 .identity-section .name {
     font-size: 24px;
     color: #222;
-    margin: 0;
+    margin: 0 0 5px 0;
     font-weight: 700;
+    transition: all 0.3s ease;
+    transform-origin: left;
+    position: relative;
+    display: inline-block;
+}
+
+.identity-section .name::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, #8B0000, #DC143C);
+    transition: width 0.4s ease;
+}
+
+.modern-card:hover .identity-section .name {
+    color: #000;
+    letter-spacing: 0.3px;
+    transform: scale(1.03);
+}
+
+.modern-card:hover .identity-section .name::after {
+    width: 100%;
 }
 
 .identity-section .position {
     font-size: 16px;
     color: #555;
-    margin: 5px 0 15px;
+    margin: 0 0 15px;
     font-weight: 500;
     text-transform: none;
+    transition: all 0.3s ease;
+}
+
+.modern-card:hover .identity-section .position {
+    color: #333;
+    transform: translateX(5px);
 }
 
 /* Certification Text */
 .certification-text {
-    margin: 10px 0 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-card:hover .certification-text {
+    transform: translateZ(10px);
 }
 
 .license-text {
@@ -1137,43 +2346,140 @@ body {
     color: #555;
     font-style: italic;
     margin: 0 0 5px;
+    transition: all 0.3s ease;
     position: relative;
+}
+
+.license-text::before {
+    content: '"';
+    font-size: 20px;
+    color: rgba(139, 0, 0, 0.3);
+    position: absolute;
+    left: -5px;
+    top: -5px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.license-text::after {
+    content: '"';
+    font-size: 20px;
+    color: rgba(139, 0, 0, 0.3);
+    position: absolute;
+    right: -5px;
+    bottom: -5px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.modern-card:hover .license-text {
+    color: #444;
+    padding: 0 5px;
+}
+
+.modern-card:hover .license-text::before,
+.modern-card:hover .license-text::after {
+    opacity: 1;
 }
 
 .arabic-text {
     font-size: 13px;
     color: #555;
-    margin: 0;
     direction: rtl;
     text-align: right;
+    margin: 0;
     font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.modern-card:hover .arabic-text {
+    color: #444;
+    transform: translateX(-5px);
 }
 
 /* Description Section */
 .description-container {
-    padding: 10px 20px;
-    margin-bottom: 15px;
+    padding: 5px 15px 15px;
+    position: relative;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.modern-card:hover .description-container {
+    transform: translateZ(15px);
+}
+
+.description-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    width: calc(100% - 30px);
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05), transparent);
+    transform: scaleX(0);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.modern-card:hover .description-container::after {
+    transform: scaleX(1);
+    opacity: 1;
 }
 
 .description {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.5;
     color: #555;
     text-align: left;
     margin: 0;
+    transition: all 0.3s ease;
+}
+
+.modern-card:hover .description {
+    color: #333;
 }
 
 /* Contact Information */
 .contact-info {
-    padding: 0 20px;
-    margin-bottom: 20px;
+    padding: 5px 15px 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .contact-item {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px 5px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.contact-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.03);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+    z-index: -1;
+}
+
+.contact-item:hover {
+    transform: translateX(5px);
+}
+
+.contact-item:hover::before {
+    transform: scaleX(1);
 }
 
 .contact-icon {
@@ -1185,23 +2491,76 @@ body {
     justify-content: center;
     align-items: center;
     margin-right: 15px;
-    flex-shrink: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, transparent 80%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.contact-item:hover .contact-icon {
+    transform: scale(1.1);
+    background-color: #8B0000;
+    box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
+}
+
+.contact-item:hover .contact-icon::before {
+    opacity: 0.4;
+    animation: iconGlow 1.5s infinite ease-in-out;
+}
+
+@keyframes iconGlow {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(1.2);
+    }
 }
 
 .contact-icon i {
-    color: #fff;
+    color: white;
     font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-icon i {
+    transform: scale(1.2);
 }
 
 .contact-details {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-details {
+    transform: translateX(3px);
 }
 
 .contact-details span {
     font-size: 14px;
     color: #333;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-details span {
+    color: #000;
 }
 
 .contact-details .label {
@@ -1209,35 +2568,119 @@ body {
     color: #777;
     background: none;
     padding: 0;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-details .label {
+    color: #8B0000;
 }
 
 .contact-details .text {
     font-size: 14px;
     color: #333;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-details .text {
+    color: #000;
 }
 
 /* Save Contact Button */
 .save-contact-container {
-    padding: 0 20px;
+    padding: 0 15px 25px;
     margin-top: auto;
-    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
 }
 
-.save-contact {
+.modern-card:hover .save-contact-container {
+    transform: translateZ(25px);
+}
+
+.modern-card .save-contact {
     background: #333;
     color: white;
     width: 100%;
     padding: 12px;
-    border-radius: 30px;
+    border-radius: 25px;
     font-weight: 600;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
 }
 
-.save-contact:hover {
-    background: #222;
-    transform: translateY(-2px);
+.modern-card .save-contact::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent);
+    transition: all 0.4s ease;
+}
+
+.modern-card .save-contact:hover {
+    background: #8B0000;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 16px rgba(139, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.modern-card .save-contact:hover::before {
+    animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+
+    20% {
+        left: 100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+.modern-card .save-contact:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.3);
+}
+
+/* Additional animations */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(139, 0, 0, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(139, 0, 0, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(139, 0, 0, 0);
+    }
 }`;
   }
 
@@ -1251,81 +2694,287 @@ body {
 .business-card {
     width: 350px;
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    animation: cardEntrance 0.8s ease forwards;
+}
+
+.business-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.02);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
 .business-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px) rotateX(3deg);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 15px 25px rgba(0, 0, 0, 0.08);
+}
+
+.business-card:hover::after {
+    opacity: 1;
 }
 
 .elegant-card {
     background: white;
     padding: 0;
     text-align: center;
-    height: 600px;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.elegant-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    background: linear-gradient(45deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 30%,
+            rgba(255, 255, 255, 0.05) 70%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: rotate(45deg) translateY(-100%);
+    transition: transform 0.8s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.elegant-card:hover::before {
+    transform: rotate(45deg) translateY(100%);
 }
 
 .elegant-header {
-    background: #f8f9fa;
-    padding: 20px;
+    background: linear-gradient(to right, #f8f9fa, #f1f3f5, #f8f9fa);
+    padding: 22px;
     border-bottom: 1px solid #e9ecef;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 18px;
+    position: relative;
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+.elegant-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #007bff, transparent);
+    transform: scaleX(0.8);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.elegant-card:hover .elegant-header {
+    background: linear-gradient(to right, #f1f3f5, #f8f9fa, #f1f3f5);
+    transform: translateZ(20px);
+}
+
+.elegant-card:hover .elegant-header::after {
+    transform: scaleX(1);
+    opacity: 1;
 }
 
 .company-logo {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 1;
+}
+
+.company-logo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, rgba(0, 123, 255, 0), rgba(0, 123, 255, 0.1));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.elegant-card:hover .company-logo {
+    transform: scale(1.1) translateZ(30px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.elegant-card:hover .company-logo::before {
+    opacity: 1;
 }
 
 .company-logo .logo {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    transition: all 0.4s ease;
+    transform: scale(0.95);
+}
+
+.elegant-card:hover .company-logo .logo {
+    transform: scale(1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 
 .company-name {
     font-size: 18px;
     font-weight: 700;
     color: #343a40;
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+.company-name::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #007bff, transparent);
+    transition: width 0.4s ease;
+}
+
+.elegant-card:hover .company-name {
+    color: #212529;
+    letter-spacing: 0.2px;
+    transform: translateZ(25px);
+}
+
+.elegant-card:hover .company-name::after {
+    width: 100%;
 }
 
 .elegant-profile {
-    padding: 30px 20px;
+    padding: 35px 20px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s ease;
+}
+
+.elegant-card:hover .elegant-profile {
+    transform: translateZ(30px);
 }
 
 .profile-container {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    margin: 0 auto 20px;
+    margin: 0 auto 25px;
     overflow: hidden;
     border: 3px solid #f8f9fa;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.profile-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 0 solid rgba(0, 123, 255, 0.2);
+    transition: all 0.4s ease;
+    z-index: 2;
+}
+
+.elegant-card:hover .profile-container {
+    transform: scale(1.05) translateZ(35px);
+    border-color: #e9ecef;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.elegant-card:hover .profile-container::before {
+    border-width: 4px;
+    animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+    0% {
+        border-color: rgba(0, 123, 255, 0.6);
+        transform: scale(1);
+    }
+
+    50% {
+        border-color: rgba(0, 123, 255, 0.3);
+        transform: scale(1.1);
+    }
+
+    100% {
+        border-color: rgba(0, 123, 255, 0.6);
+        transform: scale(1);
+    }
 }
 
 .profile-container .profile-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: all 0.5s ease;
+    filter: saturate(1.05);
+}
+
+.elegant-card:hover .profile-container .profile-img {
+    transform: scale(1.08);
+    filter: contrast(1.05) saturate(1.1);
 }
 
 .elegant-profile .name {
-    font-size: 26px;
+    font-size: 28px;
     color: #212529;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    position: relative;
+    display: inline-block;
+    transition: all 0.4s ease;
+}
+
+.elegant-profile .name::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, #007bff, #00c6ff);
+    transform: translateX(-50%);
+    transition: width 0.4s ease;
+}
+
+.elegant-card:hover .elegant-profile .name {
+    color: #000;
+    transform: translateY(-3px);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.elegant-card:hover .elegant-profile .name::after {
+    width: 80%;
 }
 
 .elegant-profile .position {
@@ -1333,25 +2982,100 @@ body {
     color: #6c757d;
     text-transform: none;
     font-weight: 400;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+    position: relative;
+}
+
+.elegant-card:hover .elegant-profile .position {
+    color: #495057;
+    letter-spacing: 0.3px;
+    opacity: 1;
 }
 
 .elegant-divider {
     width: 50px;
     height: 3px;
-    background: #007bff;
+    background: linear-gradient(to right, #007bff, #00c6ff);
     margin: 0 auto 20px;
+    border-radius: 3px;
+    transition: all 0.4s ease;
+}
+
+.elegant-card:hover .elegant-divider {
+    width: 80px;
+    transform: translateZ(20px);
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+    animation: gradient-shift 3s infinite linear;
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .elegant-card .description {
-    padding: 0 30px;
+    padding: 0 35px;
     margin-bottom: 30px;
     font-style: italic;
     color: #6c757d;
+    transition: all 0.4s ease;
+    position: relative;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.elegant-card:hover .description {
+    color: #495057;
+    transform: translateZ(15px);
+}
+
+.elegant-card .description::before,
+.elegant-card .description::after {
+    content: '';
+    position: absolute;
+    height: 10px;
+    width: 15px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path fill="rgba(108, 117, 125, 0.3)" d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/></svg>');
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.elegant-card .description::before {
+    top: -10px;
+    left: 15px;
+}
+
+.elegant-card .description::after {
+    bottom: -10px;
+    right: 15px;
+    transform: rotate(180deg);
+}
+
+.elegant-card:hover .description::before,
+.elegant-card:hover .description::after {
+    opacity: 1;
 }
 
 .elegant-contact {
     padding: 0 20px;
     margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+.elegant-card:hover .elegant-contact {
+    transform: translateZ(20px);
 }
 
 .elegant-contact-item {
@@ -1363,45 +3087,202 @@ body {
     gap: 15px;
     transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
 .elegant-contact-item:last-child {
     border-bottom: none;
 }
 
+.elegant-contact-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 123, 255, 0.03);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
 .elegant-contact-item:hover {
-    background: #f8f9fa;
+    background: transparent;
+    transform: translateX(8px);
+    gap: 20px;
+}
+
+.elegant-contact-item:hover::before {
+    transform: scaleX(1);
 }
 
 .elegant-contact-item i {
     color: #007bff;
     font-size: 16px;
-    width: 20px;
+    width: 24px;
     text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.elegant-contact-item:hover i {
+    color: #0056b3;
+    transform: scale(1.2) rotate(5deg);
+}
+
+.elegant-contact-item i::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, rgba(0, 123, 255, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: -1;
+}
+
+.elegant-contact-item:hover i::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.elegant-contact-item span {
+    transition: all 0.3s ease;
+    color: #495057;
+}
+
+.elegant-contact-item:hover span {
+    color: #212529;
+    font-weight: 500;
 }
 
 .elegant-save {
-    background: #343a40;
+    background: linear-gradient(to right, #343a40, #495057);
     width: 70%;
     margin: 0 auto 30px;
-    border-radius: 5px;
+    border-radius: 6px;
     color: white;
     padding: 12px;
     border: none;
     cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.elegant-save::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent);
+    transition: all 0.6s ease;
 }
 
 .elegant-save:hover {
-    background: #212529;
+    background: linear-gradient(to right, #007bff, #0056b3);
+    transform: translateY(-3px) translateZ(25px);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.elegant-save:hover::before {
+    animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+
+    20% {
+        left: 100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+.elegant-save:active {
+    transform: translateY(1px) scale(0.98);
 }
 
 .elegant-footer {
     margin-top: auto;
-    background: #f8f9fa;
+    background: linear-gradient(to right, #f8f9fa, #f1f3f5, #f8f9fa);
     padding: 15px;
     color: #6c757d;
     font-size: 13px;
     border-top: 1px solid #e9ecef;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.elegant-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(0, 123, 255, 0.2), transparent);
+    transform: scaleX(0.5);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.elegant-card:hover .elegant-footer {
+    background: linear-gradient(to right, #f5f7f9, #f8f9fa, #f5f7f9);
+    transform: translateZ(10px);
+}
+
+.elegant-card:hover .elegant-footer::before {
+    transform: scaleX(1);
+    opacity: 1;
+}
+
+.powered-by-brand {
+    font-weight: 600;
+    color: #007bff;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.powered-by-brand::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #007bff;
+    transition: width 0.3s ease;
+}
+
+.powered-by-brand:hover {
+    color: #0056b3;
+}
+
+.powered-by-brand:hover::after {
+    width: 100%;
 }`;
   }
 
@@ -1413,10 +3294,10 @@ body {
   function generateCardJS(data) {
     return `/**
  * Bcaitech Digital Business Card
- * Interactive functions
+ * Interactive functions and animations
  */
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize interactive elements
+    // Initialize interactive elements and animations
     setupCardInteractions();
     
     /**
@@ -1427,16 +3308,59 @@ document.addEventListener('DOMContentLoaded', function() {
         const saveContactBtn = document.querySelector('.save-contact');
         if (saveContactBtn) {
             saveContactBtn.addEventListener('click', saveContact);
+            
+            // Add ripple effect to save button
+            saveContactBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 6px 20px rgba(0,0,0,0.2)';
+            });
+            
+            saveContactBtn.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.boxShadow = '';
+            });
         }
         
+        // Contact items hover effects
+        const contactItems = document.querySelectorAll('.contact-item');
+        contactItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+                this.style.backgroundColor = 'rgba(0,0,0,0.02)';
+                this.style.borderRadius = '8px';
+                
+                // Change icon color and background
+                const icon = this.querySelector('.icon');
+                if (icon) {
+                    icon.style.backgroundColor = '#8B0000';
+                    icon.style.color = 'white';
+                    icon.style.transform = 'scale(1.1)';
+                }
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.backgroundColor = '';
+                this.style.borderRadius = '';
+                
+                // Reset icon styles
+                const icon = this.querySelector('.icon');
+                if (icon) {
+                    icon.style.backgroundColor = '';
+                    icon.style.color = '';
+                    icon.style.transform = '';
+                }
+            });
+        });
+        
         // WhatsApp link
-        const whatsappElements = document.querySelectorAll('.whatsapp-item, .whatsapp-block, .whatsapp-item');
+        const whatsappElements = document.querySelectorAll('.whatsapp-item, .whatsapp-block');
         whatsappElements.forEach(el => {
             el.addEventListener('click', openWhatsApp);
         });
         
         // Website link
-        const websiteElements = document.querySelectorAll('.website-item, .website-block, .website-item');
+        const websiteElements = document.querySelectorAll('.website-item, .website-block');
         websiteElements.forEach(el => {
             el.addEventListener('click', openWebsite);
         });
@@ -1452,6 +3376,47 @@ document.addEventListener('DOMContentLoaded', function() {
         phoneElements.forEach(el => {
             el.addEventListener('click', callPhone);
         });
+        
+        // Profile picture and logo hover effects for classic template
+        const classicCard = document.querySelector('.classic-card');
+        if (classicCard) {
+            const profileCircle = classicCard.querySelector('.profile-circle');
+            if (profileCircle) {
+                profileCircle.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                    this.style.borderColor = '#b10000';
+                });
+                
+                profileCircle.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.borderColor = '';
+                });
+            }
+            
+            const logoContainer = classicCard.querySelector('.company-logo-container');
+            if (logoContainer) {
+                logoContainer.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 6px 12px rgba(0,0,0,0.15)';
+                });
+                
+                logoContainer.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            }
+            
+            const name = classicCard.querySelector('.name');
+            if (name) {
+                name.addEventListener('mouseenter', function() {
+                    this.style.color = '#8B0000';
+                });
+                
+                name.addEventListener('mouseleave', function() {
+                    this.style.color = '';
+                });
+            }
+        }
     }
     
     /**

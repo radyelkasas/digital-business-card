@@ -16,7 +16,7 @@
     <div class="container">
         <header data-aos="fade-down" data-aos-duration="1000">
             <div class="logo-container">
-                <img src="assets/media/bcaitech-logo.png" alt="Bcaitech Logo" class="header-logo">
+                <img src="assets/media/bcaitech.svg" alt="Bcaitech Logo" class="header-logo">
             </div>
             <h1>Digital Business Card Creator</h1>
             <p>Create professional business cards in seconds</p>
@@ -129,7 +129,9 @@
         </main>
 
         <footer>
-            <p>Powered by <strong>Bcaitech</strong> &copy; 2025</p>
+            <p>Powered by <a href="https://bcaitech.bh/" target="_blank"
+                    rel="noopener noreferrer"><strong>Bcaitech</strong></a>
+                &copy; 2025</p>
         </footer>
     </div>
 
@@ -138,54 +140,64 @@
     <!-- Classic Template -->
     <template id="classicTemplate">
         <div class="business-card classic-card">
-            <div class="card-header">
-                <div class="logo-container">
-                    <img src="" alt="Logo" class="logo">
-                </div>
-                <div class="company-card-container">
-                    <img src="" alt="Company Card" class="company-card">
-                </div>
+            <div class="classic-header">
+                <img src="" alt="Cover" class="cover-image">
             </div>
 
             <div class="profile-section">
-                <div class="profile-circle">
-                    <img src="" alt="Profile" class="profile-img">
+                <div class="profile-container">
+                    <div class="profile-circle">
+                        <img src="" alt="Profile" class="profile-img">
+                    </div>
+                </div>
+                <div class="company-logo-container">
+                    <img src="" alt="Company Logo" class="company-logo">
                 </div>
             </div>
 
-            <h1 class="name"></h1>
-            <h2 class="position"></h2>
+            <div class="identity-section">
+                <h1 class="name"></h1>
+                <h2 class="position"></h2>
+            </div>
 
             <p class="description"></p>
 
             <div class="contact-info">
                 <div class="contact-item email-item">
                     <span class="icon"><i class="fas fa-envelope"></i></span>
-                    <span class="email"></span>
-                    <span class="label">Work</span>
+                    <div class="contact-details">
+                        <span class="email"></span>
+                        <span class="label">Work</span>
+                    </div>
                 </div>
 
                 <div class="contact-item phone-item">
                     <span class="icon"><i class="fas fa-phone"></i></span>
-                    <span class="phone"></span>
-                    <span class="label">Work</span>
+                    <div class="contact-details">
+                        <span class="phone"></span>
+                        <span class="label">Work</span>
+                    </div>
                 </div>
 
                 <div class="contact-item whatsapp-item">
                     <span class="icon"><i class="fab fa-whatsapp"></i></span>
-                    <span class="text">Connect on WhatsApp</span>
+                    <div class="contact-details">
+                        <span class="text">Connect with me on WhatsApp</span>
+                    </div>
                 </div>
 
                 <div class="contact-item website-item">
                     <span class="icon"><i class="fas fa-globe"></i></span>
-                    <span class="text">Visit our website</span>
+                    <div class="contact-details">
+                        <span class="text">Visit our website</span>
+                    </div>
                 </div>
             </div>
 
             <button class="save-contact">Save Contact</button>
 
             <div class="powered-by">
-                Powered by <strong>Bcaitech</strong>
+                Powered by <a href="https://bcaitech.bh/" target="_blank" rel="noopener noreferrer" class="powered-by-brand">Bcaitech</a>
             </div>
         </div>
     </template>
