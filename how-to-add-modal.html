@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كيفية إصلاح النافذة المنبثقة في البطاقة</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1, h2 {
+            color: #343a40;
+        }
+        .step {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        code {
+            background: #f1f3f5;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        pre {
+            background: #f1f3f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f5ff;
+            border-right: 4px solid #339af0;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>كيفية إصلاح النافذة المنبثقة في البطاقة المنزلة</h1>
+    
+    <div class="note">
+        <strong>ملاحظة:</strong> هذا الدليل يشرح كيفية إصلاح مشكلة ظهور رسالة الخطأ 
+        <code>Uncaught ReferenceError: showModal is not defined</code> 
+        عند الضغط على زر "حفظ جهة الاتصال" في البطاقة المنزلة.
+    </div>
+    
+    <h2>خطوات الإصلاح:</h2>
+    
+    <div class="step">
+        <h3>الخطوة 1: نسخ ملف الإصلاح</h3>
+        <p>قم بنسخ ملف <code>modal-fix.js</code> الموجود في نفس مجلد مولد البطاقات إلى مجلد البطاقة المنزلة (المجلد الذي يحتوي على ملفات <code>index.html</code> و <code>styles.css</code> و <code>script.js</code>).</p>
+    </div>
+    
+    <div class="step">
+        <h3>الخطوة 2: تعديل ملف index.html</h3>
+        <p>افتح ملف <code>index.html</code> الخاص بالبطاقة المنزلة بأي محرر نصوص، وأضف السطر التالي قبل نهاية علامة <code>&lt;/body&gt;</code> مباشرة:</p>
+        <pre>&lt;script src="modal-fix.js"&gt;&lt;/script&gt;</pre>
+        <p>بحيث يبدو ترتيب السطور قبل نهاية <code>&lt;/body&gt;</code> كالتالي:</p>
+        <pre>&lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;script src="modal-fix.js"&gt;&lt;/script&gt;
+&lt;/body&gt;</pre>
+    </div>
+    
+    <div class="note">
+        <p>ملاحظة: هذا الإصلاح يعمل بإضافة وظائف النافذة المنبثقة بشكل ديناميكي إلى الصفحة، ويقوم بتعديل وظيفة <code>saveContact</code> للتأكد من استدعاء <code>showModal</code> عند حفظ جهة الاتصال.</p>
+    </div>
+    
+    <h2>ماذا يفعل هذا الإصلاح؟</h2>
+    <p>يقوم الإصلاح بإضافة:</p>
+    <ul>
+        <li>أنماط CSS اللازمة للنافذة المنبثقة</li>
+        <li>وظيفة <code>showModal</code> التي تعرض رسالة نجاح (أو خطأ) بشكل جميل</li>
+        <li>وظيفة <code>hideModal</code> لإخفاء النافذة</li>
+        <li>معالج للزر Escape لإغلاق النافذة</li>
+        <li>معالج لحدث النقر خارج النافذة لإغلاقها</li>
+        <li>ضبط معالج حدث لأزرار "حفظ جهة الاتصال" لضمان استدعاء النافذة المنبثقة بعد الحفظ</li>
+    </ul>
+    
+    <br>
+    <p>إذا كانت لديك أي استفسارات أو واجهت مشكلات إضافية، يرجى التواصل مع الدعم الفني.</p>
+</body>
+</html>

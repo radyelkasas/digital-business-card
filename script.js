@@ -9,12 +9,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize AOS animations
   AOS.init();
 
-  // DOM Elements
+  // Get DOM elements
   const form = document.getElementById("cardForm");
   const previewSection = document.getElementById("previewSection");
   const previewContainer = document.getElementById("cardPreview");
   const downloadBtn = document.getElementById("downloadBtn");
   const sendEmailBtn = document.getElementById("sendEmailBtn");
+  const customModal = document.getElementById("customModal");
+  const modalButton = document.querySelector(".modal-button");
 
   // Image Uploads
   const profilePicInput = document.getElementById("profilePic");
@@ -31,6 +33,256 @@ document.addEventListener("DOMContentLoaded", function () {
     background: null,
     logo: null,
   };
+  let primaryColor = "#8B0000"; // Default primary color
+
+  /**
+   * Show modal message with animation
+   * @param {string} message - Message to display
+   * @param {boolean} isError - Whether this is an error message
+   */
+  function showModal(message, isError = false) {
+    // Check if modal exists in the HTML file (downloaded version)
+    let customModal = document.getElementById("customModal");
+
+    // If modal doesn't exist, create it dynamically
+    if (!customModal) {
+      customModal = document.createElement("div");
+      customModal.id = "customModal";
+      customModal.className = "modal-container";
+
+      // Create modal content
+      customModal.innerHTML = `
+          <div class="modal-content">
+            <div class="modal-icon">
+              <i class="fas ${
+                isError ? "fa-exclamation-circle" : "fa-check-circle"
+              }"></i>
+            </div>
+            <h3 class="modal-title">${isError ? "حدث خطأ!" : "تم بنجاح!"}</h3>
+            <p class="modal-message">${
+              message ||
+              "تم حفظ جهة الاتصال بنجاح! تحقق من مجلد التنزيلات الخاص بك."
+            }</p>
+            <button class="modal-button" style="background-color: ${
+              isError ? "#dc3545" : primaryColor
+            };">حسناً</button>
+          </div>
+        `;
+
+      // Add modal styles if they don't exist
+      if (!document.getElementById("modalStyles")) {
+        const styleEl = document.createElement("style");
+        styleEl.id = "modalStyles";
+        styleEl.textContent = `
+            .modal-container {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(0, 0, 0, 0.5);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              z-index: 1000;
+              opacity: 0;
+              visibility: hidden;
+              transition: all 0.3s ease;
+            }
+            
+            .modal-container.show {
+              opacity: 1;
+              visibility: visible;
+            }
+            
+            .modal-content {
+              background-color: white;
+              padding: 30px;
+              border-radius: 15px;
+              text-align: center;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+              max-width: 400px;
+              width: 90%;
+              transform: translateY(30px) scale(0.9);
+              transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+              position: relative;
+              overflow: hidden;
+            }
+            
+            .modal-container.show .modal-content {
+              transform: translateY(0) scale(1);
+            }
+            
+            .modal-content::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 5px;
+              background: linear-gradient(to right, var(--primary-color, ${primaryColor}), #ff6b6b);
+            }
+            
+            .modal-icon {
+              margin-bottom: 20px;
+            }
+            
+            .modal-icon i {
+              font-size: 70px;
+              color: #28a745;
+              animation: modalIconAnimation 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            
+            @keyframes modalIconAnimation {
+              0% {
+                transform: scale(0.3);
+                opacity: 0;
+              }
+              70% {
+                transform: scale(1.2);
+              }
+              100% {
+                transform: scale(1);
+                opacity: 1;
+              }
+            }
+            
+            .modal-title {
+              font-size: 24px;
+              color: #333;
+              margin-bottom: 15px;
+              font-weight: 600;
+              animation: fadeInUp 0.4s ease forwards;
+              animation-delay: 0.2s;
+              opacity: 0;
+            }
+            
+            .modal-message {
+              font-size: 16px;
+              color: #666;
+              margin-bottom: 25px;
+              line-height: 1.6;
+              animation: fadeInUp 0.4s ease forwards;
+              animation-delay: 0.3s;
+              opacity: 0;
+            }
+            
+            .modal-button {
+              background-color: var(--primary-color, ${primaryColor});
+              color: white;
+              border: none;
+              padding: 12px 30px;
+              border-radius: 25px;
+              font-size: 16px;
+              cursor: pointer;
+              font-weight: 500;
+              transition: all 0.3s ease;
+              animation: fadeInUp 0.4s ease forwards;
+              animation-delay: 0.4s;
+              opacity: 0;
+              margin-top: 10px;
+            }
+            
+            .modal-button:hover {
+              background-color: var(--hover-color, ${primaryColor});
+              transform: translateY(-3px);
+              box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+            
+            @keyframes fadeInUp {
+              from {
+                transform: translateY(20px);
+                opacity: 0;
+              }
+              to {
+                transform: translateY(0);
+                opacity: 1;
+              }
+            }
+          `;
+        document.head.appendChild(styleEl);
+      }
+
+      // Append modal to body
+      document.body.appendChild(customModal);
+
+      // Add event listener to close button
+      const closeButton = customModal.querySelector(".modal-button");
+      if (closeButton) {
+        closeButton.addEventListener("click", function () {
+          hideModal();
+        });
+      }
+
+      // Add click event to close on background click
+      customModal.addEventListener("click", function (e) {
+        if (e.target === customModal) {
+          hideModal();
+        }
+      });
+    } else {
+      // Update existing modal content
+      const modalContent = customModal.querySelector(".modal-content");
+      if (modalContent) {
+        const modalIcon = modalContent.querySelector(".modal-icon i");
+        if (modalIcon) {
+          modalIcon.className = `fas ${
+            isError ? "fa-exclamation-circle" : "fa-check-circle"
+          }`;
+          modalIcon.style.color = isError ? "#dc3545" : "#28a745";
+        }
+
+        const modalTitle = modalContent.querySelector(".modal-title");
+        if (modalTitle) {
+          modalTitle.textContent = isError ? "حدث خطأ!" : "تم بنجاح!";
+        }
+
+        const modalMessage = modalContent.querySelector(".modal-message");
+        if (modalMessage) {
+          modalMessage.textContent =
+            message ||
+            "تم حفظ جهة الاتصال بنجاح! تحقق من مجلد التنزيلات الخاص بك.";
+        }
+
+        const modalButton = modalContent.querySelector(".modal-button");
+        if (modalButton) {
+          modalButton.style.backgroundColor = isError
+            ? "#dc3545"
+            : primaryColor;
+        }
+      }
+    }
+
+    // Show modal
+    customModal.classList.add("show");
+
+    // Prevent scrolling
+    document.body.style.overflow = "hidden";
+
+    // Add ESC key support to close modal
+    document.addEventListener("keydown", handleEscKeyPress);
+  }
+
+  /**
+   * Handle ESC key press to close modal
+   */
+  function handleEscKeyPress(e) {
+    if (e.key === "Escape") {
+      hideModal();
+    }
+  }
+
+  /**
+   * Hide modal
+   */
+  function hideModal() {
+    const customModal = document.getElementById("customModal");
+    if (customModal) {
+      customModal.classList.remove("show");
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleEscKeyPress);
+    }
+  }
 
   // Update template preview images
   updateTemplatePreviewImages();
@@ -41,10 +293,105 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add updated CSS styles for templates
   updateTemplateCSS();
 
+  // Setup modal button event
+  if (modalButton) {
+    modalButton.addEventListener("click", function () {
+      hideModal();
+    });
+
+    // Also close modal when clicking outside of it
+    customModal.addEventListener("click", function (e) {
+      if (e.target === customModal) {
+        hideModal();
+      }
+    });
+
+    // Add escape key support
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && customModal.classList.contains("show")) {
+        hideModal();
+      }
+    });
+  }
+
+  /**
+   * Show the custom modal with success message
+   * @param {string} message - Optional custom message to display
+   * @param {boolean} isError - Whether this is an error message
+   */
+  function showModal(message, isError = false) {
+    // Apply the primary color to the modal components
+    const modalContent = document.querySelector(".modal-content");
+    if (modalContent) {
+      modalContent.innerHTML = `
+        <div class="modal-icon">
+          <i class="fas ${
+            isError ? "fa-exclamation-circle" : "fa-check-circle"
+          }"></i>
+        </div>
+        <h3 class="modal-title">${isError ? "حدث خطأ!" : "تم بنجاح!"}</h3>
+        <p class="modal-message">${
+          message ||
+          "تم حفظ جهة الاتصال بنجاح! تحقق من مجلد التنزيلات الخاص بك."
+        }</p>
+        <button class="modal-button" style="background-color: ${
+          isError ? "#dc3545" : primaryColor
+        };">حسناً</button>
+      `;
+
+      // Add error class if needed
+      if (isError) {
+        modalContent.classList.add("error");
+        modalContent.querySelector(".modal-icon i").style.color = "#dc3545";
+      } else {
+        modalContent.classList.remove("error");
+        modalContent.querySelector(".modal-icon i").style.color = "#28a745";
+      }
+
+      // Reset modal button event
+      modalContent
+        .querySelector(".modal-button")
+        .addEventListener("click", hideModal);
+
+      // Apply gradient to modal header
+      modalContent.style.setProperty(
+        "--modal-gradient-color",
+        isError ? "#dc3545" : primaryColor
+      );
+    }
+
+    // Show the modal with animation
+    customModal.classList.add("show");
+
+    // Prevent scrolling on body
+    document.body.style.overflow = "hidden";
+  }
+
+  /**
+   * Hide the custom modal
+   */
+  function hideModal() {
+    customModal.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+
   // Handle image upload and preview
   setupImageUpload(profilePicInput, profilePreview, "profile");
   setupImageUpload(backgroundImageInput, backgroundPreview, "background");
   setupImageUpload(logoImageInput, logoPreview, "logo");
+
+  // Handle primary color selection
+  const primaryColorInput = document.getElementById("primaryColor");
+  if (primaryColorInput) {
+    primaryColorInput.addEventListener("change", function (e) {
+      primaryColor = e.target.value;
+
+      // If card is already generated, update it with the new color
+      if (currentCardData) {
+        createCard(currentCardData);
+      }
+    });
+  }
 
   // Handle form submission
   form.addEventListener("submit", function (e) {
@@ -62,9 +409,11 @@ document.addEventListener("DOMContentLoaded", function () {
       website: formData.get("website"),
       description: formData.get("description"),
       template: formData.get("template"),
+      primaryColor: formData.get("primaryColor"),
     };
 
     // Save current data
+    primaryColor = cardData.primaryColor;
     currentCardData = cardData;
 
     // Create the card
@@ -928,6 +1277,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add images
     addImagesToCard(cardElement, data.template);
 
+    // Apply custom colors
+    applyCustomColors(cardElement, data.template);
+
     // Add card interactions
     addCardInteractions(cardElement, data);
 
@@ -938,6 +1290,76 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add animations
     const card = previewContainer.querySelector(".business-card");
     card.classList.add("fadeIn");
+  }
+
+  /**
+   * Apply custom colors to card elements based on selected primary color
+   * @param {DocumentFragment} cardElement - The card template clone
+   * @param {string} templateType - Type of template (classic, modern, elegant)
+   */
+  function applyCustomColors(cardElement, templateType) {
+    // Get all color-customizable elements based on template type
+    if (templateType === "classic") {
+      // Profile circle border
+      const profileCircle = cardElement.querySelector(".profile-circle");
+      if (profileCircle) {
+        profileCircle.style.borderColor = primaryColor;
+      }
+
+      // Name color on hover (added inline via style to override CSS)
+      const name = cardElement.querySelector(".name");
+      if (name) {
+        name.parentElement.insertAdjacentHTML(
+          "beforeend",
+          `<style>
+            .classic-card:hover .name { color: ${primaryColor} !important; }
+            .classic-card .contact-item:hover { color: ${primaryColor} !important; }
+            .classic-card .contact-item:hover .icon { background: ${primaryColor} !important; }
+            .classic-card .save-contact:hover { background: ${primaryColor} !important; }
+            .powered-by-brand { color: ${primaryColor} !important; }
+          </style>`
+        );
+      }
+    } else if (templateType === "modern") {
+      // Contact icons
+      const contactIcons = cardElement.querySelectorAll(".contact-icon");
+      contactIcons.forEach((icon) => {
+        icon.style.backgroundColor = primaryColor;
+      });
+
+      // Save button
+      const saveButton = cardElement.querySelector(".save-contact");
+      if (saveButton) {
+        saveButton.style.backgroundColor = primaryColor;
+      }
+
+      // Add style for hover effects
+      cardElement.querySelector(".modern-card").insertAdjacentHTML(
+        "beforeend",
+        `<style>
+          .modern-card .contact-item:hover .contact-details .label { color: ${primaryColor} !important; }
+          .modern-card .save-contact:hover { background: ${primaryColor} !important; }
+        </style>`
+      );
+    } else if (templateType === "elegant") {
+      // Divider
+      const divider = cardElement.querySelector(".elegant-divider");
+      if (divider) {
+        divider.style.background = primaryColor;
+      }
+
+      // Icons
+      const icons = cardElement.querySelectorAll(".elegant-contact-item i");
+      icons.forEach((icon) => {
+        icon.style.color = primaryColor;
+      });
+
+      // Save button
+      const saveButton = cardElement.querySelector(".elegant-save");
+      if (saveButton) {
+        saveButton.style.background = primaryColor;
+      }
+    }
   }
 
   /**
@@ -1284,8 +1706,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 
-    // Show success alert
-    alert("Contact saved successfully!");
+    // Show success modal
+    showModal("تم حفظ جهة الاتصال بنجاح! تحقق من مجلد التنزيلات الخاص بك.");
   }
 
   /**
@@ -1349,6 +1771,25 @@ document.addEventListener("DOMContentLoaded", function () {
    * @returns {string} HTML content
    */
   function generateCardHTML(data) {
+    // Set a custom style block to handle the primary color
+    const customColorStyle = `
+    <style>
+      :root {
+        --primary-color: ${data.primaryColor || primaryColor};
+      }
+      .profile-circle { border-color: var(--primary-color) !important; }
+      .classic-card:hover .name { color: var(--primary-color) !important; }
+      .classic-card .contact-item:hover { color: var(--primary-color) !important; }
+      .classic-card .contact-item:hover .icon { background: var(--primary-color) !important; }
+      .classic-card .save-contact:hover { background: var(--primary-color) !important; }
+      .powered-by-brand { color: var(--primary-color) !important; }
+      .modern-card .contact-icon { background-color: var(--primary-color) !important; }
+      .modern-card .save-contact:hover { background: var(--primary-color) !important; }
+      .elegant-divider { background: var(--primary-color) !important; }
+      .elegant-contact-item i { color: var(--primary-color) !important; }
+      .elegant-save { background: var(--primary-color) !important; }
+    </style>
+    `;
     // Get appropriate template based on selected type
     let cardTemplateHTML = "";
 
@@ -1369,9 +1810,13 @@ document.addEventListener("DOMContentLoaded", function () {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>${data.name} - Business Card</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    ${customColorStyle}
 </head>
 <body>
     <div class="card-container">
@@ -1653,8 +2098,20 @@ document.addEventListener("DOMContentLoaded", function () {
    * @returns {string} CSS content
    */
   function generateCardCSS(templateType) {
+    // Define CSS variables with custom color
+    const customColorVars = `
+:root {
+    --brand-red: ${primaryColor};
+    --primary-color: ${primaryColor};
+    --brand-blue: #4285F4;
+    --dark: #000000;
+    --gray: #666666;
+    --light-gray: #f8f9fa;
+}
+`;
     // Common CSS styles
     const commonCSS = `/* Bcaitech Business Card Styles */
+${customColorVars}
 * {
     margin: 0;
     padding: 0;
@@ -3292,11 +3749,16 @@ body {
    * @returns {string} JavaScript content
    */
   function generateCardJS(data) {
+    // Get the primary color for use in JS
+    const customColor = data.primaryColor || primaryColor;
+    // Include code to apply the custom color to dynamic elements
     return `/**
  * Bcaitech Digital Business Card
  * Interactive functions and animations
  */
 document.addEventListener('DOMContentLoaded', function() {
+    // Set custom primary color from the generated card
+    const primaryColor = '${customColor}';
     // Initialize interactive elements and animations
     setupCardInteractions();
     
@@ -3313,6 +3775,12 @@ document.addEventListener('DOMContentLoaded', function() {
             saveContactBtn.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-2px)';
                 this.style.boxShadow = '0 6px 20px rgba(0,0,0,0.2)';
+                
+                // Apply primary color to save button on hover if it's not already set
+                const cardType = this.closest('.business-card');
+                if (cardType && cardType.classList.contains('classic-card')) {
+                    this.style.backgroundColor = primaryColor;
+                }
             });
             
             saveContactBtn.addEventListener('mouseleave', function() {
@@ -3332,7 +3800,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Change icon color and background
                 const icon = this.querySelector('.icon');
                 if (icon) {
-                    icon.style.backgroundColor = '#8B0000';
+                    icon.style.backgroundColor = primaryColor;
                     icon.style.color = 'white';
                     icon.style.transform = 'scale(1.1)';
                 }
@@ -3384,7 +3852,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (profileCircle) {
                 profileCircle.addEventListener('mouseenter', function() {
                     this.style.transform = 'scale(1.05)';
-                    this.style.borderColor = '#b10000';
+                    this.style.borderColor = primaryColor;
                 });
                 
                 profileCircle.addEventListener('mouseleave', function() {
@@ -3409,7 +3877,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const name = classicCard.querySelector('.name');
             if (name) {
                 name.addEventListener('mouseenter', function() {
-                    this.style.color = '#8B0000';
+                    this.style.color = primaryColor;
                 });
                 
                 name.addEventListener('mouseleave', function() {
@@ -3417,6 +3885,255 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         }
+    }
+    
+    /**
+     * Show modal message with animation
+     * @param {string} message - Message to display
+     * @param {boolean} isError - Whether this is an error message
+     */
+    function showModal(message, isError = false) {
+      // Check if modal exists in the HTML file (downloaded version)
+      let customModal = document.getElementById("customModal");
+
+      // If modal doesn't exist, create it dynamically
+      if (!customModal) {
+        customModal = document.createElement("div");
+        customModal.id = "customModal";
+        customModal.className = "modal-container";
+
+        // Create modal content
+        customModal.innerHTML = \`
+            <div class="modal-content">
+              <div class="modal-icon">
+                <i class="fas \${
+                  isError ? "fa-exclamation-circle" : "fa-check-circle"
+                }"></i>
+              </div>
+              <h3 class="modal-title">\${isError ? "حدث خطأ!" : "تم بنجاح!"}</h3>
+              <p class="modal-message">\${
+                message ||
+                "تم حفظ جهة الاتصال بنجاح! تحقق من مجلد التنزيلات الخاص بك."
+              }</p>
+              <button class="modal-button" style="background-color: \${
+                isError ? "#dc3545" : primaryColor
+              };">حسناً</button>
+            </div>
+          \`;
+
+        // Add modal styles if they don't exist
+        if (!document.getElementById("modalStyles")) {
+          const styleEl = document.createElement("style");
+          styleEl.id = "modalStyles";
+          styleEl.textContent = \`
+              .modal-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+              }
+              
+              .modal-container.show {
+                opacity: 1;
+                visibility: visible;
+              }
+              
+              .modal-content {
+                background-color: white;
+                padding: 30px;
+                border-radius: 15px;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                max-width: 400px;
+                width: 90%;
+                transform: translateY(30px) scale(0.9);
+                transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+                position: relative;
+                overflow: hidden;
+              }
+              
+              .modal-container.show .modal-content {
+                transform: translateY(0) scale(1);
+              }
+              
+              .modal-content::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 5px;
+                background: linear-gradient(to right, var(--primary-color, \${primaryColor}), #ff6b6b);
+              }
+              
+              .modal-icon {
+                margin-bottom: 20px;
+              }
+              
+              .modal-icon i {
+                font-size: 70px;
+                color: #28a745;
+                animation: modalIconAnimation 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+              }
+              
+              @keyframes modalIconAnimation {
+                0% {
+                  transform: scale(0.3);
+                  opacity: 0;
+                }
+                70% {
+                  transform: scale(1.2);
+                }
+                100% {
+                  transform: scale(1);
+                  opacity: 1;
+                }
+              }
+              
+              .modal-title {
+                font-size: 24px;
+                color: #333;
+                margin-bottom: 15px;
+                font-weight: 600;
+                animation: fadeInUp 0.4s ease forwards;
+                animation-delay: 0.2s;
+                opacity: 0;
+              }
+              
+              .modal-message {
+                font-size: 16px;
+                color: #666;
+                margin-bottom: 25px;
+                line-height: 1.6;
+                animation: fadeInUp 0.4s ease forwards;
+                animation-delay: 0.3s;
+                opacity: 0;
+              }
+              
+              .modal-button {
+                background-color: var(--primary-color, \${primaryColor});
+                color: white;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 25px;
+                font-size: 16px;
+                cursor: pointer;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                animation: fadeInUp 0.4s ease forwards;
+                animation-delay: 0.4s;
+                opacity: 0;
+                margin-top: 10px;
+              }
+              
+              .modal-button:hover {
+                background-color: var(--hover-color, \${primaryColor});
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+              }
+              
+              @keyframes fadeInUp {
+                from {
+                  transform: translateY(20px);
+                  opacity: 0;
+                }
+                to {
+                  transform: translateY(0);
+                  opacity: 1;
+                }
+              }
+            \`;
+          document.head.appendChild(styleEl);
+        }
+
+        // Append modal to body
+        document.body.appendChild(customModal);
+
+        // Add event listener to close button
+        const closeButton = customModal.querySelector(".modal-button");
+        if (closeButton) {
+          closeButton.addEventListener("click", function () {
+            hideModal();
+          });
+        }
+
+        // Add click event to close on background click
+        customModal.addEventListener("click", function (e) {
+          if (e.target === customModal) {
+            hideModal();
+          }
+        });
+      } else {
+        // Update existing modal content
+        const modalContent = customModal.querySelector(".modal-content");
+        if (modalContent) {
+          const modalIcon = modalContent.querySelector(".modal-icon i");
+          if (modalIcon) {
+            modalIcon.className = \`fas \${
+              isError ? "fa-exclamation-circle" : "fa-check-circle"
+            }\`;
+            modalIcon.style.color = isError ? "#dc3545" : "#28a745";
+          }
+
+          const modalTitle = modalContent.querySelector(".modal-title");
+          if (modalTitle) {
+            modalTitle.textContent = isError ? "حدث خطأ!" : "تم بنجاح!";
+          }
+
+          const modalMessage = modalContent.querySelector(".modal-message");
+          if (modalMessage) {
+            modalMessage.textContent =
+              message ||
+              "تم حفظ جهة الاتصال بنجاح! تحقق من مجلد التنزيلات الخاص بك.";
+          }
+
+          const modalButton = modalContent.querySelector(".modal-button");
+          if (modalButton) {
+            modalButton.style.backgroundColor = isError
+              ? "#dc3545"
+              : primaryColor;
+          }
+        }
+      }
+
+      // Show modal
+      customModal.classList.add("show");
+
+      // Prevent scrolling
+      document.body.style.overflow = "hidden";
+
+      // Add ESC key support to close modal
+      document.addEventListener("keydown", handleEscKeyPress);
+    }
+
+    /**
+     * Handle ESC key press to close modal
+     */
+    function handleEscKeyPress(e) {
+      if (e.key === "Escape") {
+        hideModal();
+      }
+    }
+
+    /**
+     * Hide modal
+     */
+    function hideModal() {
+      const customModal = document.getElementById("customModal");
+      if (customModal) {
+        customModal.classList.remove("show");
+        document.body.style.overflow = "";
+        document.removeEventListener("keydown", handleEscKeyPress);
+      }
     }
     
     function saveContact() {
@@ -3537,7 +4254,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Create download link
     var a = document.createElement("a");
     a.href = url;
-    a.download = name.replace(/\s+/g, "_") + "_contact.vcf";
+    a.download = name.replace(/\\s+/g, "_") + "_contact.vcf";
     
     // Append to body, click and remove
     document.body.appendChild(a);
@@ -3547,8 +4264,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Release URL object
     window.URL.revokeObjectURL(url);
     
-    // Show success alert in Arabic
-    alert("تم حفظ جهة الاتصال بنجاح! تحقق من مجلد التنزيلات الخاص بك.");
+    // Show success modal instead of alert
+    showModal("تم حفظ جهة الاتصال بنجاح! تحقق من مجلد التنزيلات الخاص بك.");
   }
     
     /**
@@ -3634,11 +4351,12 @@ document.addEventListener('DOMContentLoaded', function() {
     emailjs.send("service_h4iregr", "template_rgrw5mk", templateParams).then(
       function (response) {
         console.log("نجاح!", response.status, response.text);
-        alert("تم إرسال البطاقة بنجاح إلى بريدك الإلكتروني!");
+        // Show success message
+        showModal("تم إرسال البطاقة بنجاح إلى بريدك الإلكتروني!");
       },
       function (error) {
         console.log("فشل...", error);
-        alert("حدث خطأ أثناء إرسال البريد. يرجى المحاولة مرة أخرى.");
+        showModal("حدث خطأ أثناء إرسال البريد. يرجى المحاولة مرة أخرى.", true);
       }
     );
   }
